@@ -1,0 +1,42 @@
+doctype html
+html
+  head
+  link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
+  //- Unbuffered code block to define the array of results
+  -
+    const results = [
+      { vehicle_name: 'Sedan', vehicle_type: 'Car', max_speed: 180 },
+      { vehicle_name: 'Sport Bike', vehicle_type: 'Motorcycle', max_speed: 220 },
+      { vehicle_name: 'SUV', vehicle_type: 'Car', max_speed: 160 }
+    ];
+
+each item, index in results
+          .col-sm-2
+            h2 #{item.vehicle_name}
+            p Car: #{item.vehicle_type} years
+            p Speed: #{item.max_speed}
+            button(class="buy-btn" data-index=index data-name=item.vehicle_name) Buy
+
+div.container-fluid
+    div.row
+      - for (const vehicle of results)
+        div.col-sm-2
+          p Vehicle Name: #{vehicle.vehicle_name}
+          p Vehicle Type: #{vehicle.vehicle_type}
+          p Max Speed: #{vehicle.max_speed} km/h
+
+    script.
+      document.addEventListener('DOMContentLoaded', function() {
+        const buyButtons = document.querySelectorAll('.buy-btn');
+        buyButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            const index = button.getAttribute('data-index');
+            const name = button.getAttribute('data-name');
+            buy(index, name);
+          });
+        });
+      });
+
+      function buy(index, name) {
+        alert("You purchased item " + index + ": " + name);
+      }
