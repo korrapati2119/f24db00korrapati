@@ -41,10 +41,12 @@ exports.vehicle_detail = async (req, res) => {
 
 // Create a new vehicle
 exports.vehicle_create_post = async (req, res) => {
-  const newVehicle = new Vehicle({
-    vehicle_name: req.body.vehicle_name,
-    price: req.body.price,
-    functionality: req.body.functionality
+  const vehicleSchema = new mongoose.Schema({
+    vehicle_name: { type: String, required: true },
+    vehicle_type: { type: String, required: true },
+    max_speed: { type: Number, required: true },
+    price: { type: Number, required: true },  // Ensure 'price' is defined
+    functionality: { type: String, required: true }  // Ensure 'functionality' is defined
   });
   try {
     await newVehicle.save();
