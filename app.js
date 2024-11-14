@@ -51,7 +51,7 @@ app.use(function(err, req, res, next) {
 // List of all Vehicles
 exports.costume_list = async function(req, res) {
   try{
-  theVehicls = await Vehicle.find();
+  theVehicles = await Vehicle.find();
   res.send(theVehicles);
   }
   catch(err){
