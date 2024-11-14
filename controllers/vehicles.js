@@ -2,7 +2,6 @@
 const Vehicle = require('../models/vehicles');
 
 // List all vehicles
-// controllers/controller.js
 const getAllDocuments = async (req, res) => {
   try {
       const documents = await Vehicles.find();
@@ -13,7 +12,6 @@ const getAllDocuments = async (req, res) => {
 };
 
 module.exports = { getAllDocuments };
-
 
 // Get a specific Vehicle by ID
 exports.vehicle_detail = function(req, res) {
