@@ -62,3 +62,21 @@ exports.vehicle_update_put = async (req, res) => {
     res.status(500).json({ message: "Error updating vehicle", error: err.message });
   }
 };
+const Vehicle = require('./models/vehicles');
+
+const seedVehicles = async () => {
+  // Delete all existing vehicles
+  await Vehicle.deleteMany();
+
+  // Create new vehicles
+  const vehicles = [
+    { vehicle_name: 'Sedan', price: 20000, functionality: 'Transportation' },
+    { vehicle_name: 'Sport Bike', price: 15000, functionality: 'Recreational' },
+    { vehicle_name: 'SUV', price: 35000, functionality: 'Transportation' }
+  ];
+
+  // Save them to the database
+  await Vehicle.insertMany(vehicles);
+  console.log('Vehicles seeded successfully!');
+};
+seedVehicles().catch(err => console.error(err));
