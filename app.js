@@ -11,9 +11,7 @@ mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => 
-  console.log("Connection to DB succeeded");
-);
-
+  console.log("Connection to DB succeeded"));
 const app = express();
 
 const indexRouter = require('./routes/index');
