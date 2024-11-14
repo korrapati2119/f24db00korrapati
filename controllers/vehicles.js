@@ -2,14 +2,17 @@
 const Vehicle = require('../models/vehicles');
 
 // List all vehicles
-exports.vehicle_list = async function (req, res) {
-  try {
-    const thevehicles = await Vehicle.find();
-    res.send(theCostumes);
-  } catch (err) {
-    res.status(500).json({ message: 'Failed to fetch vehicles' });
+exports.costume_list = async function(req, res) {
+  try{
+  theVehicles = await Vehicle.find();
+  res.send(theVehicles);
   }
-};
+  catch(err){
+  res.status(500);
+  res.send(`{"error": ${err}}`);
+  } 
+ };
+ 
 
 // Get a specific Gadget by ID
 exports.vehicle_detail = function(req, res) {
