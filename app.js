@@ -35,7 +35,7 @@ app.use('/vehicle', vehicleRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/grid', gridRouter);
-app.use('/selector', pickRouter);
+//app.use('/selector', pickRouter);
 app.use('/resource', resourceRouter);  // Route for all resource-related requests
 
 //Error handler
