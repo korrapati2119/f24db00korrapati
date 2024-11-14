@@ -2,17 +2,18 @@
 const Vehicle = require('../models/vehicles');
 
 // List all vehicles
-exports.costume_list = async function(req, res) {
-  try{
-  theVehicles = await Vehicle.find();
-  res.send(theVehicles);
+// controllers/controller.js
+const getAllDocuments = async (req, res) => {
+  try {
+      const documents = await Vehicles.find();
+      res.json(documents);
+  } catch (err) {
+      res.status(500).json({ error: 'Error fetching documents' });
   }
-  catch(err){
-  res.status(500);
-  res.send(`{"error": ${err}}`);
-  } 
- };
- 
+};
+
+module.exports = { getAllDocuments };
+
 
 // Get a specific Vehicle by ID
 exports.vehicle_detail = function(req, res) {
