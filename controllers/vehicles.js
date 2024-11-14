@@ -1,12 +1,11 @@
-const Vehicle = require('../models/vehicle');
-
+const Vehicle = require('../models/vehicles');
 // List all vehicles
 exports.getAllDocuments = async (req, res) => {
   try {
-    const vehicle = await Vehicle.find();
-    res.json(vehicle);
+    const vehicles = await Vehicle.find();
+    res.json(vehicles);
   } catch (err) {
-    res.status(500).json({ error: 'Error fetching documents' });
+    res.status(500).json({ error: 'Error fetching vehicles' });
   }
 };
 
