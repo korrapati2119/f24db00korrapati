@@ -1,4 +1,4 @@
-exports.api =function (req, res) {
+exports.api = (req, res) => {
   res.json({
     message: "Welcome to the Vehicles API",
     endpoints: {

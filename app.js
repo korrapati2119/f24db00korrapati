@@ -21,7 +21,7 @@ var usersRouter = require('./routes/users');
 var gridRouter = require('./routes/grid');
 const pickRouter = require('./routes/pick');  // <-- Add this line
 const resourceRouter = require('./routes/resource');
-var vehicleRouter = require('./routes/vehicle');  
+var vehicleRouter = require('./routes/vehicles');  
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
