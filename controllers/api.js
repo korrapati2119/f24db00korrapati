@@ -1,8 +1,12 @@
-// API for our resource
-exports.api = function(req, res) {
-    res.status(200).json({
-      resources: [
-        { resource: 'vehicles', verbs: ['GET', 'POST', 'PUT', 'DELETE'] }
-      ]
-    });
-  };
+exports.api =function (req, res) {
+  res.json({
+    message: "Welcome to the Vehicles API",
+    endpoints: {
+      listAllVehicle: "/vehicle [GET]",
+      createVehicle: "/vehicle [POST]",
+      getVehicleById: "/vehicle/:id [GET]",
+      updateVehicle: "/vehicle/:id [PUT]",
+      deleteVehicle: "/vehicle/:id [DELETE]"
+    }
+  });
+};
