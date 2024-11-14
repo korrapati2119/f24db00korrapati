@@ -18,6 +18,5 @@ router.post('/vehicles', vehicle_controller.vehicle_create_post); // Create new 
 router.get('/vehicles/:id', vehicle_controller.vehicle_detail); // View single vehicle
 router.put('/vehicles/:id', vehicle_controller.vehicle_update_put); // Update vehicle
 router.delete('/vehicles/:id',vehicle_controller.vehicle_delete); // Delete vehicle
-router.get('/resource/vehicles', getAllDocuments);
 
 module.exports = router;
