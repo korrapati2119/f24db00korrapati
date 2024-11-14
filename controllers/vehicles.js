@@ -62,8 +62,6 @@ exports.vehicle_update_put = async (req, res) => {
     res.status(500).json({ message: "Error updating vehicle", error: err.message });
   }
 };
-const Vehicle = require('./models/vehicles');
-
 const seedVehicles = async () => {
   // Delete all existing vehicles
   await Vehicle.deleteMany();
@@ -79,4 +77,5 @@ const seedVehicles = async () => {
   await Vehicle.insertMany(vehicles);
   console.log('Vehicles seeded successfully!');
 };
+
 seedVehicles().catch(err => console.error(err));
