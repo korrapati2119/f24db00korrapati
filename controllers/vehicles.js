@@ -1,8 +1,6 @@
 const Vehicle = require('../models/vehicles');
 // List all vehicles
 exports.vehicle_create_post = async function(req, res) {
-  
-}(req, res) => {
   try {
     const newVehicle = new Vehicle({
       vehicle_name: req.body.vehicle_name,
