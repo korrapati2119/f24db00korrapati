@@ -17,6 +17,7 @@ var app = express();
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const gridRouter = require('./routes/grid');
+const pickRouter = require('./routes/pick');
 const resourceRouter = require('./routes/resource');
 var vehicleRouter = require('./routes/vehicle');  
 
