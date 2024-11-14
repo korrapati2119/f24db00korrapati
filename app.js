@@ -21,7 +21,7 @@ var usersRouter = require('./routes/users');
 var gridRouter = require('./routes/grid');
 var pickRouter = require('./routes/pick');  // <-- Add this line
 var resourceRouter = require('./routes/resource');
-var vehicleRouter = require('./routes/vehicles');  
+var vehiclesRouter = require('./routes/vehicles');  
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -38,7 +38,7 @@ app.use('/users', usersRouter);
 app.use('/grid', gridRouter);
 app.use('/selector', pickRouter);  // Using pickRouter now that it's defined
 app.use('/resource', resourceRouter);
-app.use('/vehicle', vehicleRouter);
+app.use('/vehicles', vehiclesRouter);
 
 // Error handler
 app.use(function(err, req, res, next) {
