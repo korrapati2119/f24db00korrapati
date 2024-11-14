@@ -1,6 +1,8 @@
 const Vehicle = require('../models/vehicles');
 // List all vehicles
-exports.vehicle_create_post = async (req, res) => {
+exports.vehicle_create_post = async function(req, res) {
+  
+}(req, res) => {
   try {
     const newVehicle = new Vehicle({
       vehicle_name: req.body.vehicle_name,
@@ -13,7 +15,7 @@ exports.vehicle_create_post = async (req, res) => {
     res.status(400).json({ message: 'Failed to create vehicle', error: error.message });
   }
 };
-exports.getAllDocuments = async (req, res) => {
+exports.getAllDocuments = async function(req, res) {
   try {
     const vehicles = await Vehicle.find();
     res.json(vehicles);
@@ -23,7 +25,7 @@ exports.getAllDocuments = async (req, res) => {
 };
 
 // Get a specific vehicle by ID
-exports.vehicle_detail = async (req, res) => {
+exports.vehicle_detail = async function(req, res) {
   try {
     const vehicle = await Vehicle.findById(req.params.id);
     if (!vehicle) return res.status(404).json({ message: "Vehicle not found" });
@@ -32,7 +34,7 @@ exports.vehicle_detail = async (req, res) => {
     res.status(500).json({ error: 'Error fetching vehicle' });
   }
 };
-exports.vehicle_create_post = async (req, res) => {
+exports.vehicle_create_post = async function(req, res) {
   if (!req.body.vehicle_name || !req.body.price || !req.body.functionality) {
     return res.status(400).json({ message: "Missing required fields: vehicle_name, price, and functionality" });
   }
@@ -52,7 +54,7 @@ exports.vehicle_create_post = async (req, res) => {
 };
 
 // Delete a vehicle by ID
-exports.vehicle_delete = async (req, res) => {
+exports.vehicle_delete = async function (req, res) {
   try {
     const vehicle = await Vehicle.findByIdAndDelete(req.params.id);
     if (!vehicle) {
@@ -65,7 +67,7 @@ exports.vehicle_delete = async (req, res) => {
 };
 
 // Update a vehicle by ID
-exports.vehicle_update_put = async (req, res) => {
+exports.vehicle_update_put = async function(req, res) {
   try {
     const updatedVehicle = await Vehicle.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updatedVehicle) return res.status(404).json({ message: "Vehicle not found" });
