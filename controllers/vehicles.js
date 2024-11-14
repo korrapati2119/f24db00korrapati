@@ -2,13 +2,14 @@
 const Vehicle = require('../models/vehicles');
 
 // List all vehicles
-exports.vehicle_list = async (req, res)
+exports.vehicle_list = async function (req, res) {
   try {
     const vehicles = await Vehicle.find();
     res.status(200).json(vehicles);
   } catch (err) {
     res.status(500).json({ message: 'Failed to fetch vehicles' });
   }
+};
 
 // Get a specific Gadget by ID
 exports.vehicle_detail = function(req, res) {
