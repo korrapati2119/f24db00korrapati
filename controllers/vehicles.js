@@ -15,10 +15,10 @@ exports.vehicle_create_post = async function(req, res) {
 };
 exports.getAllDocuments = async function(req, res) {
   try {
-    const vehicles = await Vehicle.find();
-    res.json(vehicles);
+      const vehicles = await Vehicle.find();  // Example function to fetch all vehicles
+      res.status(200).json(vehicles);
   } catch (err) {
-    res.status(500).json({ error: 'Error fetching vehicles' });
+      res.status(500).json({ message: 'Error fetching vehicles', error: err.message });
   }
 };
 
