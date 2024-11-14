@@ -1,17 +1,8 @@
-const express = require('express');
-const router = express.Router();
+// In routes/vehicles.js
+var express = require('express');
+var router = express.Router();
 
-const results = [
-  { vehicles_name: 'Sedan', vehicle_type: 'Car', max_speed: 180 },
-  { vehicles_name: 'Sport Bike', vehicle_type: 'Motorcycle', max_speed: 220},
-  { vehicles_name: 'SUV', vehicle_type: 'Car', max_speed: 160}
-];
+// POST route to create a new vehicle
+router.post('/', vehicle_controlers.vehicle_create_post);
 
-// Route to render the Sculptures page
-router.get('/', (req, res) => {
-  res.render('Vehicles', { 
-    title: 'Vehicles search results', 
-    results: results  
-  });
-});
 module.exports = router;
