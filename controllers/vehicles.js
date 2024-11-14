@@ -14,7 +14,7 @@ exports.costume_list = async function(req, res) {
  };
  
 
-// Get a specific Gadget by ID
+// Get a specific Vehicle by ID
 exports.vehicle_detail = function(req, res) {
   Vehicle.findById(req.params.id, function(err, vehicle) {
     if (err || !vehicle) return res.status(404).json({ message: "Vehicle not found" });
