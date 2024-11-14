@@ -6,8 +6,6 @@ exports.vehicle_create_post = async (req, res) => {
       vehicle_name: req.body.vehicle_name,
       vehicle_type: req.body.vehicle_type,
       max_speed: req.body.max_speed,
-      price: req.body.price,  // Include 'price'
-      functionality: req.body.functionality  // Include 'functionality'
     });
     const result = await newVehicle.save();
     res.status(201).json(result);
@@ -36,19 +34,23 @@ exports.vehicle_detail = async (req, res) => {
     res.status(500).json({ message: "Error fetching vehicle details", error: err.message });
   }
 };
-
-// Create a new vehicle
 exports.vehicle_create_post = async (req, res) => {
-  const vehicleSchema = new mongoose.Schema({
-    vehicle_name: { type: String, required: true },
-    vehicle_type: { type: String, required: true },
-    max_speed: { type: Number, required: true },
-    price: { type: Number, required: true },  // Ensure 'price' is defined
-    functionality: { type: String, required: true }  // Ensure 'functionality' is defined
+  // Ensure required fields are present in the request body
+  if (!req.body.vehicle_name || !req.body.price || !req.body.functionality) {
+    return res.status(400).json({ message: "Missing required fields: vehicle_name, price, and functionality" });
+  }
+
+  // Create a new vehicle instance
+  const newVehicle = new Vehicle({
+    vehicle_name: req.body.vehicle_name,
+    price: req.body.price,
+    functionality: req.body.functionality
   });
+
   try {
-    await newVehicle.save();
-    res.status(201).json({ message: 'Vehicle created successfully', vehicle: newVehicle });
+    // Save the vehicle to the database
+    const savedVehicle = await newVehicle.save();
+    res.status(201).json({ message: 'Vehicle created successfully', vehicle: savedVehicle });
   } catch (err) {
     res.status(400).json({ message: 'Failed to create vehicle', error: err.message });
   }
@@ -82,14 +84,6 @@ exports.vehicle_update_put = async (req, res) => {
 const seedVehicles = async () => {
   // Delete all existing vehicles
   await Vehicle.deleteMany();
-
-  // Create new vehicles
-  const vehicles = [
-    { vehicle_name: 'Sedan', price: 20000, functionality: 'Transportation' },
-    { vehicle_name: 'Sport Bike', price: 15000, functionality: 'Recreational' },
-    { vehicle_name: 'SUV', price: 35000, functionality: 'Transportation' }
-  ];
-
   // Save them to the database
   await Vehicle.insertMany(vehicles);
   console.log('Vehicles seeded successfully!');
