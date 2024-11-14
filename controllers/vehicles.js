@@ -1,20 +1,18 @@
 const Vehicle = require('../models/vehicles');
 // List all vehicles
 exports.vehicle_create_post = async (req, res) => {
-  // Create a new Vehicle object based on the request body
-  const newVehicle = new Vehicle({
-    vehicle_name: req.body.vehicle_name,
-    vehicle_type: req.body.vehicle_type,
-    max_speed: req.body.max_speed
-  });
   try {
-    // Save the new Vehicle object to the database
+    const newVehicle = new Vehicle({
+      vehicle_name: req.body.vehicle_name,
+      vehicle_type: req.body.vehicle_type,
+      max_speed: req.body.max_speed,
+      price: req.body.price,  // Include 'price'
+      functionality: req.body.functionality  // Include 'functionality'
+    });
     const result = await newVehicle.save();
-    // Send back the created object in response
     res.status(201).json(result);
-  } catch (err) {
-    // Handle error if the creation fails
-    res.status(400).json({ message: 'Failed to create vehicle', error: err.message });
+  } catch (error) {
+    res.status(400).json({ message: 'Failed to create vehicle', error: error.message });
   }
 };
 exports.getAllDocuments = async (req, res) => {
