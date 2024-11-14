@@ -11,7 +11,7 @@ const { getAllDocuments } = require('../controllers/vehicles'); // Make sure the
 
 // API Route
 router.get('/',api_controller.api);
-
+router.get('/resource/vehicles', getAllDocuments);
 // Vehicle Routes
 router.get('/vehicles', vehicle_controller.vehicle_list);  // List all vehicles
 router.post('/vehicles', vehicle_controller.vehicle_create_post); // Create new vehicle

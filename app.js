@@ -48,15 +48,27 @@ app.use(function(err, req, res, next) {
   res.render('error'); // Render error page
 });
 
-// List of all Vehicles
-exports.costume_list = async function(req, res) {
-  try{
-  theVehicles = await Vehicle.find();
-  res.send(theVehicles);
+// Static Vehicle Route Example
+app.get('/vehicles', (req, res) => {
+  const results = [
+    { vehicles_name: 'Sedan', vehicle_type: 'Car', max_speed: 180 },
+    { vehicles_name: 'Sport Bike', vehicle_type: 'Motorcycle', max_speed: 220},
+    { vehicles_name: 'SUV', vehicle_type: 'Car', max_speed: 160}
+  ];
+  res.render('vehicles', { results }); // Pass results to Pug
+});
+
+
+// Vehicles Route - Fetch from Database
+app.get('/resource/vehicles', async (req, res) => {
+  try {
+    // Fetch all vehicles from the database
+    const vehicles = await Vehicle.find();
+    res.json(vehicles); // Send vehicles as JSON
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to fetch vehicles" });
   }
-  catch(err){
-  res.status(500);
-  res.send(`{"error": ${err}}`);
-  } 
- };
- 
+});
+
+module.exports = app;
