@@ -7,7 +7,7 @@ var api_controller = require('../controllers/api');
 var vehicle_controller = require('../controllers/vehicles');
 
 // Example import
-const { getAllDocuments } = require('../controllers/controller'); // Make sure the path is correct
+const { getAllDocuments } = require('../controllers/vehicles'); // Make sure the path is correct
 
 // API Route
 router.get('/',api_controller.api);
