@@ -2,7 +2,7 @@
 const Vehicle = require('../models/vehicles');
 
 // List all vehicles
-exports.vehicle_list = async (req, res) => {
+exports.vehicle_list = async (req, res) {
   try {
     const vehicles = await Vehicle.find();
     res.status(200).json(vehicles);
