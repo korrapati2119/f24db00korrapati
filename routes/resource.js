@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const api_controller = require('../controllers/api');
-const vehiclecontroller = require('../controllers/vehicles'); // Make sure the path is correct
+const vehicleController = require('../controllers/vehicles'); // Make sure the path is correct
 
 // API Route - Overview of supported routes
 router.get('/', api_controller.api);
