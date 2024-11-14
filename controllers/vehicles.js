@@ -11,8 +11,6 @@ const getAllDocuments = async (req, res) => {
   }
 };
 
-module.exports = { getAllDocuments };
-
 // Get a specific Vehicle by ID
 exports.vehicle_detail = function(req, res) {
   Vehicle.findById(req.params.id, function(err, vehicle) {
@@ -51,3 +49,5 @@ exports.vehicle_update_put = function(req, res) {
     res.status(200).json(updatedVehicle);
   });
 };
+
+module.exports = { getAllDocuments };  // Ensure it's exported correctly
