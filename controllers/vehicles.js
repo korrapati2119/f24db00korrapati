@@ -5,7 +5,7 @@ const Vehicle = require('../models/vehicles');
 exports.vehicle_list = async (req, res) => {
   try {
     const vehicles = await Vehicle.find();
-    res.status(200).json(vehicls);
+    res.status(200).json(vehicles);
   } catch (err) {
     res.status(500).json({ message: 'Failed to fetch vehicles' });
   }
