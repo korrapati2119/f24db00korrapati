@@ -1,9 +1,13 @@
-var mongoose = require('mongoose');
+// models/vehicles.js
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var vehiclesSchema = new mongoose.Schema({
-  vehicles_name: { type: String, required: true },
+const vehicleSchema = new Schema({
+  vehicle_name: { type: String, required: true },
   price: { type: Number, required: true },
   functionality: { type: String, required: true }
 });
 
-module.exports = mongoose.model('Vehicles',vehiclesSchema);
+const Vehicle = mongoose.model('Vehicle', vehicleSchema);
+
+module.exports = Vehicle;
