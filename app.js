@@ -19,8 +19,8 @@ var app = express();
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var gridRouter = require('./routes/grid');
-const pickRouter = require('./routes/pick');  // <-- Add this line
-const resourceRouter = require('./routes/resource');
+var pickRouter = require('./routes/pick');  // <-- Add this line
+var resourceRouter = require('./routes/resource');
 var vehicleRouter = require('./routes/vehicles');  
 
 // View engine setup
