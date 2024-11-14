@@ -1,22 +1,17 @@
-// routes/resource.js
-var express = require('express');
-var router = express.Router();
-module.exports = router;
+const express = require('express');
+const router = express.Router();
 
-var api_controller = require('../controllers/api');
-var vehicle_controller = require('../controllers/vehicles');
+const api_controller = require('../controllers/api');
+const vehicle_controller = require('../controllers/vehicle'); // Make sure the path is correct
 
-// Example import
-const { getAllDocuments } = require('../controllers/vehicles'); // Make sure the path is correct
+// API Route - Overview of supported routes
+router.get('/', api_controller.api);
 
-// API Route
-router.get('/',api_controller.api);
-router.get('/resource/vehicles', getAllDocuments);
 // Vehicle Routes
-router.get('/vehicles', vehicle_controller.vehicle_list);  // List all vehicles
-router.post('/vehicles', vehicle_controller.vehicle_create_post); // Create new vehicle
-router.get('/vehicles/:id', vehicle_controller.vehicle_detail); // View single vehicle
-router.put('/vehicles/:id', vehicle_controller.vehicle_update_put); // Update vehicle
-router.delete('/vehicles/:id',vehicle_controller.vehicle_delete); // Delete vehicle
+router.get('/resource/vehicle', vehicle_controller.getAllDocuments);  // List all vehicles
+router.post('/resource/vehicle', vehicle_controller.vehicle_create_post); // Create a new vehicle
+router.get('/resource/vehicle/:id', vehicle_controller.vehicle_detail); // View a single vehicle by ID
+router.put('/resource/vehicle/:id', vehicle_controller.vehicle_update_put); // Update a vehicle by ID
+router.delete('/resource/vehicle/:id', vehicle_controller.vehicle_delete); // Delete a vehicle by ID
 
 module.exports = router;

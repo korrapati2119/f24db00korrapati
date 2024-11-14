@@ -17,7 +17,7 @@ var app = express();
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const resourceRouter = require('./routes/resource');
-var vehiclesRouter = require('./routes/vehicle');  
+var vehicleRouter = require('./routes/vehicle');  
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/vehicle', vehiclesRouter);
+app.use('/vehicle', vehicleRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/grid', gridRouter);
@@ -47,9 +47,9 @@ app.use(function(err, req, res, next) {
 // Static Vehicle Route Example
 app.get('/vehicle', (req, res) => {
   const results = [
-    { vehicles_name: 'Sedan', vehicle_type: 'Car', max_speed: 180 },
-    { vehicles_name: 'Sport Bike', vehicle_type: 'Motorcycle', max_speed: 220},
-    { vehicles_name: 'SUV', vehicle_type: 'Car', max_speed: 160}
+    { vehicle_name: 'Sedan', vehicle_type: 'Car', max_speed: 180 },
+    { vehicle_name: 'Sport Bike', vehicle_type: 'Motorcycle', max_speed: 220},
+    { vehicle_name: 'SUV', vehicle_type: 'Car', max_speed: 160}
   ];
   res.render('vehicle', { results }); // Pass results to Pug
 });
