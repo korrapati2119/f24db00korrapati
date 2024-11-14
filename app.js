@@ -9,19 +9,15 @@ const connectionString = process.env.MONGO_CON;
 mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.once('open', function () {
+db.once('open', function () => {
   console.log("Connection to DB succeeded");
 });
 var app = express();
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-const gridRouter = require('./routes/grid');
-const pickRouter = require('./routes/pick');
-const Vehicle = require('./models/vehicles');
 const resourceRouter = require('./routes/resource');
-var vehiclesRouter = require('./routes/vehicles');  
-
+var vehiclesRouter = require('./routes/vehicle');  
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -33,7 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/vehicles', vehiclesRouter);
+app.use('/vehicle', vehiclesRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/grid', gridRouter);
@@ -49,22 +45,20 @@ app.use(function(err, req, res, next) {
 });
 
 // Static Vehicle Route Example
-app.get('/vehicles', (req, res) => {
+app.get('/vehicle', (req, res) => {
   const results = [
     { vehicles_name: 'Sedan', vehicle_type: 'Car', max_speed: 180 },
     { vehicles_name: 'Sport Bike', vehicle_type: 'Motorcycle', max_speed: 220},
     { vehicles_name: 'SUV', vehicle_type: 'Car', max_speed: 160}
   ];
-  res.render('vehicles', { results }); // Pass results to Pug
+  res.render('vehicle', { results }); // Pass results to Pug
 });
-
-
 // Vehicles Route - Fetch from Database
-app.get('/resource/vehicles', async (req, res) => {
+app.get('/resource/vehicle', async (req, res) => {
   try {
     // Fetch all vehicles from the database
-    const vehicles = await Vehicle.find();
-    res.json(vehicles); // Send vehicles as JSON
+    const vehicle = await Vehicle.find();
+    res.json(vehicle); // Send vehicles as JSON
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Failed to fetch vehicles" });
