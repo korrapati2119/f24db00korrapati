@@ -75,13 +75,31 @@ exports.vehicle_detail = async function(req, res) {
   }
  };
  
-// Update a vehicle by ID
-exports.vehicle_update_put = async function(req, res) {
+// Handle Vehicle update on PUT
+exports.vehicle_update_put = async function (req, res) {
+  console.log(`Update on id ${req.params.id} with body ${JSON.stringify(req.body)}`);
   try {
-    const updatedVehicle = await Vehicle.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!updatedVehicle) return res.status(404).json({ message: "Vehicle not found" });
-    res.json(updatedVehicle);
+      let toUpdate = await Vehicle.findById(req.params.id); // Find the vehicle by ID
+
+      // Check if the vehicle exists
+      if (!toUpdate) {
+          res.status(404).send(`{"error": "Vehicle with id ${req.params.id} not found"}`);
+          return;
+      }
+
+      // Update the properties if they exist in the request body
+      if (req.body.name) toUpdate.name = req.body.name;
+      if (req.body.type) toUpdate.type = req.body.type;
+      if (req.body.functionality) toUpdate.functionality = req.body.functionality;
+      if (req.body.price) toUpdate.price = req.body.price;
+
+      // Save the updated vehicle to the database
+      let result = await toUpdate.save();
+      console.log("Success " + result);
+      res.send(result); // Return the updated vehicle
   } catch (err) {
-    res.status(500).json({ message: "Error updating vehicle" });
+      console.error(err);
+      res.status(500);
+      res.send(`{"error": "${err}": Update for id ${req.params.id} failed"}`);
   }
 };
