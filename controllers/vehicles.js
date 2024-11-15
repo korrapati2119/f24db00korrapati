@@ -75,28 +75,36 @@ exports.vehicle_detail = async function(req, res) {
   }
  };
  
- exports.vehicle_update_put = async function (req, res) {
+ // Update a vehicle instance by ID
+exports.vehicle_update_put = async function (req, res) {
   console.log(`Update request for vehicle ID: ${req.params.id}`);
   try {
-      let toUpdate = await Vehicle.findById(req.params.id);
+    // Fetch the vehicle to update
+    let toUpdate = await Vehicle.findById(req.params.id);
+    if (!toUpdate) {
+      return res.status(404).json({ error: `Vehicle with ID ${req.params.id} not found.` });
+    }
 
-      // Update properties if they exist in the request body
-      if (req.body.name) toUpdate.name = req.body.name;
-      if (req.body.type) toUpdate.type = req.body.type;
-      if (req.body.functionality) toUpdate.functionality = req.body.functionality;
-      if (req.body.price) toUpdate.price = req.body.price;
+    // Update fields only if they are provided in the request body
+    if (req.body.vehicle_name) toUpdate.vehicle_name = req.body.vehicle_name;
+    if (req.body.vehicle_type) toUpdate.vehicle_type = req.body.vehicle_type;
+    if (req.body.max_speed) toUpdate.max_speed = req.body.max_speed;
+    if (req.body.price) toUpdate.price = req.body.price;
+    if (req.body.functionality) toUpdate.functionality = req.body.functionality;
 
-      // Handle checkbox for 'sale' status
-      if (req.body.checkboxsale) 
-          toUpdate.sale = true;
-      else 
-          toUpdate.sale = false;
+    // Handle checkbox for 'sale' status
+    if (req.body.checkboxsale === 'true' || req.body.checkboxsale === true) {
+      toUpdate.sale = true;
+    } else {
+      toUpdate.sale = false;
+    }
 
-      let result = await toUpdate.save();
-      console.log("Update Success:", result);
-      res.send(result);
+    // Save the updated vehicle
+    let result = await toUpdate.save();
+    console.log("Update Success:", result);
+    res.status(200).json({ message: "Vehicle updated successfully", vehicle: result });
   } catch (err) {
-      console.error(`Update Error: ${err}`);
-      res.status(500).send({ error: `Update for ID ${req.params.id} failed.` });
+    console.error(`Update Error: ${err.message}`);
+    res.status(500).json({ error: `Update for vehicle ID ${req.params.id} failed.`, details: err.message });
   }
 };
