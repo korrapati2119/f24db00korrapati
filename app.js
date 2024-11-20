@@ -5,7 +5,9 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
-const vehicleRoutes = require('./routes/vehicleRoutes');
+
+const vehicleRoutes = require('./routes/vehicles'); // Vehicles routes
+const resourceRoutes = require('./routes/resource'); // Resource routes
 
 const connectionString = process.env.MONGO_CON;
 mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -13,6 +15,7 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => 
   console.log("Connection to DB succeeded"));
+
 const app = express();
 
 const indexRouter = require('./routes/index');
@@ -33,6 +36,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/vehicle', vehicleRouter);
+
+app.use('/vehicles', vehicleRoutes);
+app.use('/resources', resourceRoutes);
 
 // Error handler
 app.use(function(err, req, res, next) {
