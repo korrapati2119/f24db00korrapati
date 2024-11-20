@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const vehicles_controllers = require('../controllers/vehicles');
+const Vehicle = require('../models/vehicle');
 
 // Vehicle Routes
 router.get('/', vehicles_controllers.getAllDocuments); // List all vehicles
@@ -10,3 +11,4 @@ router.put('/:id', vehicles_controllers.vehicle_update_put); // Update vehicle b
 router.delete('/:id', vehicles_controllers.vehicle_delete); // Delete vehicle by ID
 
 module.exports = router;
+module.exports = { deleteVehicle };

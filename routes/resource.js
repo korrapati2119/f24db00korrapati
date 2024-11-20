@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const { deleteVehicle } = require('../controllers/vehicleController');
 
 // Correct path to vehicle controller
 const vehicle_controller = require('../controllers/vehicles');
+
 
 // Define routes
 router.get('/vehicles', vehicle_controller.getAllDocuments);  // Get all vehicles
@@ -12,3 +14,4 @@ router.put('/vehicles/:id', vehicle_controller.vehicle_update_put);  // Update v
 router.delete('/vehicles/:id', vehicle_controller.vehicle_delete);  // Delete vehicle
 
 module.exports = router;
+module.exports = { deleteVehicle };

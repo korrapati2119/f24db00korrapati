@@ -5,6 +5,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const vehicleRoutes = require('./routes/vehilceRoutes');
 
 const connectionString = process.env.MONGO_CON;
 mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -16,7 +17,7 @@ const app = express();
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const resourceRouter = require('./routes/resource');
+const vehicleRouter = require('./routes/vehicle');
 var vehiclesRouter = require('./routes/vehicles');  
 
 // View engine setup
@@ -31,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/resource', resourceRouter);
+app.use('/vehicle', vehicleRouter);
 
 // Error handler
 app.use(function(err, req, res, next) {

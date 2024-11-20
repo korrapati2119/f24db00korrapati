@@ -98,3 +98,31 @@ exports.vehicle_update_put = async function (req, res) {
       res.status(500).send({ error: `Update for ID ${req.params.id} failed.` });
   }
 };
+// Controller for deleting a resource
+const deleteVehicle = async (req, res) => {
+  try {
+    const { id } = req.params; // Extract the 'id' from request parameters
+    if (!id) {
+      return res.status(400).json({ error: "Vehicle ID is required." });
+    }
+
+    // Find and delete the document by ID
+    const deletedDocument = await Resource.findByIdAndDelete(id);
+
+    if (!deletedDocument) {
+      return res.status(404).json({ message: "Vehicle not found." });
+    }
+
+    // Return success message with the deleted document
+    return res.status(200).json({
+      message: "Vehicle deleted successfully.",
+      deletedVehicle: deletedDocument,
+    });
+  } catch (error) {
+    // Handle malformed ID or other errors
+    return res.status(500).json({
+      error: "Failed to delete resource.",
+      details: error.message,
+    });
+  }
+};
