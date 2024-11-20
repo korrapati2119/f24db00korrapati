@@ -20,7 +20,7 @@ const app = express();
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const vehicleRouter = require('./routes/vehicle');
+const vehicleRouter = require('./routes/vehicles');
 var vehiclesRouter = require('./routes/vehicles');  
 
 // View engine setup
