@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const vehicles_controllers = require('../controllers/vehicles');
 const Vehicle = require('../models/vehicles');
+const vehicleController = require('../controllers/vehiclesController');
+
 const { deleteVehicle } = require('../controllers/vehiclesController');
 // Vehicle Routes
 router.get('/', vehicles_controllers.getAllDocuments); // List all vehicles
