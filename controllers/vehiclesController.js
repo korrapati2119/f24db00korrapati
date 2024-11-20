@@ -1,4 +1,5 @@
 const Vehicle = require('../models/vehicles');
+const { deleteVehicle } = require('../controllers/vehiclesController'); // Correct path and controller name
 
 const deleteVehicle = async (req, res) => {
   try {
