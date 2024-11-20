@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { deleteVehicle } = require('../controllers/vehicleController');
+const { deleteVehicle } = require('../controllers/vehiclesController');
 
 // Correct path to vehicle controller
 const vehicle_controller = require('../controllers/vehicles');
