@@ -5,7 +5,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
-const vehicleRoutes = require('./routes/vehilceRoutes');
+const vehicleRoutes = require('./routes/vehicleRoutes');
 
 const connectionString = process.env.MONGO_CON;
 mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
