@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  h1= title
+  - let vehicleid = toShow._id
+  - let vehicle_name = toShow.vehicle_name
+  - let vehicle_price = toShow.price
+  - let vehicle_functionality = toShow.functionality
+
+  div
+    div.row
+      div(class='vehicleAttr mr-3') Vehicle ID:
+      div #{vehicleid}
+
+    div.row
+      div(class='vehicleAttr mr-3') Vehicle Name:
+      div #{vehicle_name}
+
+    div.row
+      div(class='vehicleAttr mr-3') Vehicle Price:
+      div #{vehicle_price}
+
+    div.row
+      div(class='vehicleAttr mr-3') Vehicle Functionality:
+      div #{vehicle_functionality}

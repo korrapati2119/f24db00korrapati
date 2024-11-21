@@ -17,4 +17,7 @@ router.put('/:id', vehiclesController.vehicle_update_put);  // Update vehicle by
 // Route to delete a vehicle by ID
 router.delete('/:id', vehiclesController.vehicle_delete);  // Delete vehicle by ID
 
+/* GET detail vehicle page */
+router.get('/detail', vehiclesControllers.vehicle_view_one_Page); // Handle a show one view with id specified by query
+
 module.exports = router;
