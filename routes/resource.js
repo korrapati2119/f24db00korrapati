@@ -1,25 +1,23 @@
+// routes/resource.js
 const express = require('express');
 const router = express.Router();
-
-// Require the vehicles controller
 const api_controller = require('../controllers/api');
-const vehiclesController = require('../controllers/vehicles');
+const vehicleController = require('../controllers/vehicles');
 
+// Base API route
 router.get('/', api_controller.api);
 
-// API routes for vehicles
-router.post('/vehicles', vehiclesController.vehicles_create_post);
-router.get('/vehicles', vehiclesController.vehicles_list);
-router.get('/vehicles/all', vehiclesController.vehicles_view_all_Page);
-/* GET create vehicles page */
-router.get('/vehicles/create', vehiclesController.vehicles_create_Page);
+// Vehicle API routes
+router.post('/vehicles', vehicleController.vehicle_create_post);
+router.get('/vehicles', vehicleController.vehicle_list);
+router.get('/vehicles/all', vehicleController.vehicle_view_all_Page);
+router.get('/vehicles/create', vehicleController.vehicle_create_Page);
 
-// GET detail page for a specific vehicle (using query parameter)
-router.get('/vehicles/detail', vehiclesController.vehicles_view_one_Page);
-/* GET update page for vehicle */
-router.get('/update', vehiclesController.vehicles_update_Page);
-router.get('/vehicles/:id', vehiclesController.vehicles_detail);
-router.put('/vehicles/:id', vehiclesController.vehicles_update_put);
-router.delete('/vehicles/:id', vehiclesController.vehicles_delete);
+// Vehicle details, update, delete routes
+router.get('/vehicles/detail', vehicleController.vehicle_view_one_Page);
+router.get('/update', vehicleController.vehicle_update_Page);
+router.get('/vehicles/:id', vehicleController.vehicle_detail);
+router.put('/vehicles/:id', vehicleController.vehicle_update_put);
+router.delete('/vehicles/:id', vehicleController.vehicle_delete);
 
 module.exports = router;

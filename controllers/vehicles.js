@@ -1,135 +1,99 @@
-// Import the Vehicle model
-const Vehicle = require('../models/vehicles');
+// controllers/vehicles.js
+const Vehicles = require('../models/vehicles');
 
-// Handle GET request to fetch all vehicles
+// List all vehicles
 exports.vehicle_list = async function (req, res) {
   try {
-    const vehicles = await Vehicle.find();
+    const vehicles = await Vehicles.find();
     res.send(vehicles);
   } catch (err) {
-    res.status(500).send({ error: err.message });
+    res.status(500).send({ "error": err.message });
   }
 };
 
-// Display all vehicles page
+// View all vehicles in a webpage
 exports.vehicle_view_all_Page = async function (req, res) {
   try {
-    const vehicles = await Vehicle.find();
-    res.render('vehicles', { title: 'Vehicles', results: vehicles });
+    const results = await Vehicles.find();
+    res.render('vehicles', { title: 'Vehicles', results: results });
   } catch (err) {
-    res.status(500).send({ error: err.message });
+    res.status(500).send(`{"error": ${err}}`);
   }
 };
 
-// Display details of a specific vehicle
+// View one vehicle by ID
 exports.vehicle_detail = async function (req, res) {
+  console.log("Detail of Vehicle with ID:", req.params.id);
   try {
-    const result = await Vehicle.findById(req.params.id);
+    const result = await Vehicles.findById(req.params.id);
     if (!result) {
-      res.status(404).send({ error: `Vehicle with ID ${req.params.id} not found` });
+      res.status(404).send(`{"error": "Vehicle document for ID ${req.params.id} not found"}`);
     } else {
       res.send(result);
     }
-  } catch (err) {
-    res.status(500).send({ error: err.message });
+  } catch (error) {
+    res.status(500).send(`{"error": "Error retrieving document for ID ${req.params.id}: ${error.message}"}`);
   }
 };
 
-// Handle Vehicle creation on POST
+// Create a new vehicle
 exports.vehicle_create_post = async function (req, res) {
+  console.log(req.body);
+  let document = new Vehicles();
+  document.vehicle_name = req.body.vehicle_name;
+  document.price = req.body.price;
+  document.functionality = req.body.functionality;
   try {
-    const newVehicle = new Vehicle({
-      vehicle_name: req.body.vehicle_name,
-      price: req.body.price,
-      functionality: req.body.functionality,
-    });
-    const result = await newVehicle.save();
-    res.status(201).send(result);
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-  }
-};
-
-// Handle Vehicle delete
-exports.vehicle_delete = async function (req, res) {
-  try {
-    const result = await Vehicle.findByIdAndDelete(req.params.id);
-    if (!result) {
-      res.status(404).send({ error: `Vehicle with ID ${req.params.id} not found` });
-    } else {
-      res.send({ message: `Vehicle with ID ${req.params.id} deleted successfully` });
-    }
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-  }
-};
-
-// Handle Vehicle update on PUT
-exports.vehicle_update_put = async function (req, res) {
-  try {
-    const vehicleToUpdate = await Vehicle.findById(req.params.id);
-    if (!vehicleToUpdate) {
-      return res.status(404).send({ error: `Vehicle with ID ${req.params.id} not found` });
-    }
-
-    if (req.body.vehicle_name) vehicleToUpdate.vehicle_name = req.body.vehicle_name;
-    if (req.body.price) vehicleToUpdate.price = req.body.price;
-    if (req.body.functionality) vehicleToUpdate.functionality = req.body.functionality;
-
-    const result = await vehicleToUpdate.save();
+    let result = await document.save();
     res.send(result);
   } catch (err) {
-    res.status(500).send({ error: err.message });
+    res.status(500);
+    res.send(`{"error": ${err}}`);
   }
 };
 
-// Render the vehicle create form
-exports.vehicle_create_Page = function (req, res) {
-  try {
-    res.render('vehiclecreate', { title: 'Create Vehicle' });
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-  }
-};
-
-// Render the vehicle update form
-exports.vehicle_update_Page = async function (req, res) {
-  try {
-    const result = await Vehicle.findById(req.query.id);
-    if (!result) {
-      res.status(404).send({ error: `Vehicle with ID ${req.query.id} not found` });
-    } else {
-      res.render('vehicleupdate', { title: 'Update Vehicle', toShow: result });
-    }
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-  }
-};
-
-// Render the vehicle delete form
+// Delete vehicle page
 exports.vehicle_delete_Page = async function (req, res) {
+  console.log("Delete view for vehicle with ID " + req.query.id);
   try {
-    const result = await Vehicle.findById(req.query.id);
-    if (!result) {
-      res.status(404).send({ error: `Vehicle with ID ${req.query.id} not found` });
-    } else {
-      res.render('vehicledetaildelete', { title: 'Delete Vehicle', toShow: result });
-    }
+    let result = await Vehicles.findById(req.query.id);
+    res.render('vehicledel', { title: 'Vehicle Delete', toShow: result });
   } catch (err) {
-    res.status(500).send({ error: err.message });
+    console.error(err);
+    res.status(500).send(`{'error': '${err}'}`);
   }
 };
 
-// Render a single vehicle view
-exports.vehicle_view_one_Page = async function (req, res) {
+// Delete vehicle
+exports.vehicle_delete = async function (req, res) {
+  console.log("Deleting Vehicle with ID:", req.params.id);
   try {
-    const result = await Vehicle.findById(req.query.id);
+    const result = await Vehicles.findByIdAndDelete(req.params.id);
     if (!result) {
-      res.status(404).send({ error: `Vehicle with ID ${req.query.id} not found` });
+      res.status(404).send(`{"error": "Vehicle document for ID ${req.params.id} not found"}`);
     } else {
-      res.render('vehiclesdetail', { title: 'Vehicle Detail', toShow: result });
+      console.log("Removed:", result);
+      res.send(`{"message": "Vehicle document with ID ${req.params.id} deleted successfully"}`);
     }
   } catch (err) {
-    res.status(500).send({ error: err.message });
+    console.error("Error deleting document:", err);
+    res.status(500).send(`{"error": "Error deleting document for ID ${req.params.id}: ${err.message}"}`);
+  }
+};
+
+// Update vehicle details
+exports.vehicle_update_put = async function (req, res) {
+  console.log(`Updating Vehicle with ID: ${req.params.id} and data: ${JSON.stringify(req.body)}`);
+  try {
+    let toUpdate = await Vehicles.findById(req.params.id);
+    if (req.body.vehicle_name) toUpdate.vehicle_name = req.body.vehicle_name;
+    if (req.body.price) toUpdate.price = req.body.price;
+    if (req.body.functionality) toUpdate.functionality = req.body.functionality;
+    let result = await toUpdate.save();
+    console.log("Update successful:", result);
+    res.send(result);
+  } catch (err) {
+    console.error("Error updating document:", err);
+    res.status(500).send(`{"error": "Update for ID ${req.params.id} failed: ${err.message}"}`);
   }
 };

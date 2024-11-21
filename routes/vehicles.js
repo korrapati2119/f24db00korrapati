@@ -1,18 +1,16 @@
+// routes/vehicles.js
 const express = require('express');
 const router = express.Router();
-const vehiclesController = require('../controllers/vehicles');
+const vehicleController = require('../controllers/vehicles');
 
-// API Routes
-router.get('/', vehiclesController.vehicle_list);
-router.post('/create', vehiclesController.vehicle_create_post);
-router.get('/:id', vehiclesController.vehicle_detail);
-router.put('/:id', vehiclesController.vehicle_update_put);
-router.delete('/:id', vehiclesController.vehicle_delete);
+// View all vehicles
+router.get('/', vehicleController.vehicle_view_all_Page);
 
-// View Routes
-router.get('/create/page', vehiclesController.vehicle_create_Page);
-router.get('/update/page', vehiclesController.vehicle_update_Page);
-router.get('/delete/page', vehiclesController.vehicle_delete_Page);
-router.get('/view/page', vehiclesController.vehicle_view_one_Page);
+// Create new vehicle form
+router.get('/create', (req, res) => res.render('vehicle_create_form'));
 
+// Delete vehicle form
+router.get('/delete', vehicleController.vehicle_delete_Page);
+
+// Export routes
 module.exports = router;
