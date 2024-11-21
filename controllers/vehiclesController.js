@@ -15,7 +15,7 @@ const vehicle_create_post = async (req, res) => {
     res.status(400).json({ message: 'Failed to create vehicle', error: err.message });
   }
 };
-
+module.exports = { vehicle_create_post };
 
 // Function to handle GET request for fetching all vehicles
 const getAllDocuments = async (req, res) => {
