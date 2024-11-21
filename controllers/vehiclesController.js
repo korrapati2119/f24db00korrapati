@@ -9,12 +9,14 @@ const vehicle_create_post = async (req, res) => {
       functionality: req.body.functionality
     });
 
-    const savedVehicle = await newVehicle.save();  // Save the new vehicle to the database
+    const savedVehicle = await newVehicle.save();
     res.status(201).json({ message: 'Vehicle created successfully', vehicle: savedVehicle });
   } catch (err) {
     res.status(400).json({ message: 'Failed to create vehicle', error: err.message });
   }
 };
+
+// Ensure you're correctly exporting the function
 module.exports = { vehicle_create_post };
 
 // Function to handle GET request for fetching all vehicles
