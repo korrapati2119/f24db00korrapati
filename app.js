@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 
 // Import route files
 const vehicleRoutes = require('./routes/vehicles');  // Vehicle routes
-const resourceRoutes = require('./routes/resource'); // Resource routes
+const resourceRouter = require('./routes/resource'); // Resource routes
 
 // Connect to MongoDB using the connection string from .env
 const connectionString = process.env.MONGO_CON;
@@ -35,7 +35,7 @@ app.use(express.json()); // JSON parser middleware
 app.use(express.urlencoded({ extended: true })); // URL-encoded body parser middleware
 app.use(cookieParser()); // Cookie parser middleware
 app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from "public" directory
-
+app.use('/api',resourceRouter);
 // Use the routes
 app.use('/', indexRouter); // Index route
 app.use('/users', usersRouter); // Users route
