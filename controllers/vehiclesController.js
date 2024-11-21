@@ -1,19 +1,5 @@
+// Import the Vehicle model
 const Vehicle = require('../models/vehicles');
-
-// Function to render the vehicle creation form
-exports.vehicles_create_get = (req, res) => {
-  res.render('vehiclesCreateForm', { title: 'Create Vehicle' });
-};
-
-// Function to render the vehicle update form
-exports.vehicles_update_get = (req, res) => {
-  res.render('vehiclesUpdateForm', { title: 'Update Vehicle' });
-};
-
-// Function to render the vehicle delete form
-exports.vehicles_delete_get = (req, res) => {
-  res.render('vehiclesDeleteForm', { title: 'Delete Vehicle' });
-};
 
 // Function to handle POST request for creating a new vehicle
 const vehicle_create_post = async (req, res) => {
@@ -87,11 +73,11 @@ const vehicle_delete = async (req, res) => {
   }
 };
 
-// Function to handle detailed view for a specific vehicle
-exports.Vehicles_view_one_Page = async function (req, res) {
+// Function to handle detailed view for a specific vehicle (render view)
+const vehicles_view_one_Page = async function (req, res) {
   console.log("Single view for ID " + req.query.id);
   try {
-    const result = await Vehicle.findById(req.query.id); // Fetch the vehicle by ID
+    const result = await Vehicle.findById(req.query.id);  // Fetch the vehicle by ID
     if (!result) {
       res.status(404).send("Vehicle not found");
     } else {
@@ -102,14 +88,12 @@ exports.Vehicles_view_one_Page = async function (req, res) {
   }
 };
 
-
-// Export all the necessary functions at the end to avoid redundancy
+// Export all the necessary functions at the end
 module.exports = {
   vehicle_create_post,
   getAllDocuments,
   vehicle_detail,
   vehicle_update_put,
   vehicle_delete,
-  vehicles_view_one_Page // Make sure this matches the function definition exactly
+  vehicles_view_one_Page  // Consistent export name
 };
-
