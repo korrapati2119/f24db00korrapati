@@ -70,9 +70,9 @@ exports.vehicle_update_put = async function(req, res) {
 };
 
 // Delete a vehicle by ID
-exports.deleteVehicle = async function(req, res) {
+const deleteVehicle = async (req, res) => {
   try {
-    const vehicleId = req.params.id;
+    const vehicleId = req.params.id; // Get vehicle ID from the URL parameter
     const deletedVehicle = await Vehicle.findByIdAndDelete(vehicleId);
 
     if (!deletedVehicle) {
@@ -84,3 +84,5 @@ exports.deleteVehicle = async function(req, res) {
     res.status(500).json({ message: 'Server Error', error: err });
   }
 };
+
+module.exports = { deleteVehicle };
