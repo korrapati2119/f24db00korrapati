@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h1 Delete Vehicle
+
+  p Are you sure you want to delete the following vehicle?
+
+  .vehicle-details
+    .row
+      .col-sm-4
+        strong Vehicle Name:
+      .col-sm-8= vehicle.vehicle_name
+    .row
+      .col-sm-4
+        strong Price:
+      .col-sm-8= vehicle.price
+    .row
+      .col-sm-4
+        strong Functionality:
+      .col-sm-8= vehicle.functionality
+
+  form(action='/vehicles/delete/?id=' + vehicle._id, method='POST')
+    button(type='submit', class='btn btn-danger') Delete Vehicle
+    a(href='/vehicles') class='btn btn-secondary ml-2' Cancel
