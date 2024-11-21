@@ -1,24 +1,21 @@
 const Vehicle = require('../models/vehicles');  // Make sure this path is correct
 
-// Create a new vehicle
-exports.vehicle_create_post = async function(req, res) {
-  if (!req.body.vehicle_name || !req.body.vehicle_type || !req.body.max_speed) {
-    return res.status(400).json({ message: "Missing required fields: vehicle_name, vehicle_type, and max_speed" });
-  }
-
-  const newVehicle = new Vehicle({
-    vehicle_name: req.body.vehicle_name,
-    vehicle_type: req.body.vehicle_type,
-    max_speed: req.body.max_speed,
-  });
-
+// Function to handle POST request for creating a new vehicle
+const vehicle_create_post = async (req, res) => {
   try {
+    const newVehicle = new Vehicle({
+      vehicle_name: req.body.vehicle_name,
+      price: req.body.price,
+      functionality: req.body.functionality
+    });
+
     const savedVehicle = await newVehicle.save();
     res.status(201).json({ message: 'Vehicle created successfully', vehicle: savedVehicle });
   } catch (err) {
     res.status(400).json({ message: 'Failed to create vehicle', error: err.message });
   }
 };
+
 
 // Get all vehicles
 exports.getAllDocuments = async function(req, res) {
