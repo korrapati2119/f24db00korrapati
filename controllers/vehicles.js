@@ -74,17 +74,17 @@ const vehicle_delete = async (req, res) => {
 };
 
 // Handle a show one view with id specified by query
-const vehicles_view_one_Page = async (req, res) => {
+async function vehicles_view_one_Page(req, res) {
   console.log("single view for id " + req.query.id);
   try {
-    result = await Vehicles.findById(req.query.id);
-    res.render('vehiclesdetail', 
-    { title: 'Vehicle Detail', toShow: result });
+    const result = await Vehicle.findById(req.query.id); // Change `Vehicles` to `Vehicle`
+    res.render('vehiclesdetail', { title: 'Vehicle Detail', toShow: result });
   } catch (err) {
     res.status(500);
     res.send(`{'error': '${err}'}`);
   }
-};
+}
+
 
 // Export all necessary functions at the end
 module.exports = {
