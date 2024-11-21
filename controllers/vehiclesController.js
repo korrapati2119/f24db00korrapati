@@ -1,4 +1,5 @@
 const Vehicle = require('../models/vehicles');
+const { vehicles_view_one_Page } = require('./vehicles');
 
 // Function to handle POST request for creating a new vehicle
 const vehicle_create_post = async (req, res) => {
@@ -73,7 +74,7 @@ const vehicle_delete = async (req, res) => {
 };
 
 // Function to handle detailed view for a specific vehicle
-exports.vehicles_view_one_Page = async function (req, res) {
+exports.Vehicles_view_one_Page = async function (req, res) {
   console.log("Single view for ID " + req.query.id);
   try {
     const result = await Vehicle.findById(req.query.id); // Fetch the vehicle by ID
