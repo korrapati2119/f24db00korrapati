@@ -11,7 +11,6 @@ const {
 
 // Route for creating a new vehicle (POST)
 router.post('/', vehicle_create_post);
-console.log(vehicle_create_post);  // This should log the function definition, not 'undefined'
 
 // Route for fetching all vehicles (GET)
 router.get('/', getAllDocuments);
