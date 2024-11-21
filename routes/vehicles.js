@@ -4,7 +4,7 @@ const vehicleController = require('../controllers/vehiclesController'); // Ensur
 
 // Correct routes for vehicle-related actions
 router.post('/', vehicleController.vehicle_create_post);  // Create new vehicle
-router.get('/', vehicleController.getAllDocuments);  // Get all vehicles
+router.get('/vehicles', vehicleController.getAllDocuments);  // Get all vehicles
 router.get('/:id', vehicleController.vehicle_detail);  // Get vehicle by ID
 router.put('/:id', vehicleController.vehicle_update_put);  // Update vehicle by ID
 router.delete('/:id', vehicleController.vehicle_delete);  // Delete vehicle by ID
