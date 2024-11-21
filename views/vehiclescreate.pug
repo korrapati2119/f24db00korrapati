@@ -1,0 +1,54 @@
+extends layout
+
+block content
+  h1 Create a New Vehicle
+
+  form(action='/vehicles', method='POST')  // Corrected path for POST route
+    .form-group
+      label(for='vehicle_name') Vehicle Name:
+      input(type='text', id='vehicle_name', name='vehicle_name', class='form-control', required)
+
+    .form-group
+      label(for='price') Price:
+      input(type='number', id='price', name='price', class='form-control', required)
+
+    .form-group
+      label(for='functionality') Functionality:
+      input(type='text', id='functionality', name='functionality', class='form-control', required)
+
+    button(type='submit', class='btn btn-primary') Create Vehicle
+
+// Additional section for the "Heritage Site" form:
+extends layout
+
+block content
+  h1= title
+
+  form(id='HeritageSiteForm', action="/resource/heritageSites", method="POST")
+    div.form-group
+      label.siteAttr(for='site_name') Site Name
+      input#site_name(type='text', name='site_name', required=true)
+    div.form-group
+      label.siteAttr(for='location') Location
+      input#location(type='text', name='location', required=true)
+    div.form-group
+      label.siteAttr(for='year_established') Year Established
+      input#year_established(type='number', name='year_established', required=true)
+    input(type="submit", value="Create")
+
+  script.
+    document.forms['HeritageSiteForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+      // Show user that form is being submitted
+      fetch(event.target.action, {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+      })
+      .then((resp) => resp.json())
+      .then((body) => {
+        alert("Save succeeded!");
+      })
+      .catch((error) => {
+        alert("Save failed: " + error);
+      });
+    });

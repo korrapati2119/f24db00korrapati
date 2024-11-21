@@ -22,3 +22,22 @@ block content
   form(action='/vehicles/delete/?id=' + vehicle._id, method='POST')
     button(type='submit', class='btn btn-danger') Delete Vehicle
     a(href='/vehicles') class='btn btn-secondary ml-2' Cancel
+
+  script.
+    document.forms[0].addEventListener('submit', (event) => {
+      event.preventDefault();
+      // Show user that form is being submitted
+      fetch(event.target.action, {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+      })
+      .then((resp) => resp.json())
+      .then((body) => {
+        alert("Delete succeeded!");
+        window.location.href = '/vehicles';  // Redirect after successful delete
+      })
+      .catch((error) => {
+        alert("Delete failed: " + error);
+      });
+    });
+
