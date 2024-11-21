@@ -16,9 +16,8 @@ const vehicle_create_post = async (req, res) => {
   }
 };
 
-
 // Get all vehicles
-exports.getAllDocuments = async function(req, res) {
+const getAllDocuments = async (req, res) => {
   try {
     const vehicles = await Vehicle.find();  // Fetch all vehicles
     res.status(200).json(vehicles);
@@ -28,7 +27,7 @@ exports.getAllDocuments = async function(req, res) {
 };
 
 // Get a specific vehicle by ID
-exports.vehicle_detail = async function(req, res) {
+const vehicle_detail = async (req, res) => {
   try {
     const vehicle = await Vehicle.findById(req.params.id);
     if (!vehicle) {
@@ -41,7 +40,7 @@ exports.vehicle_detail = async function(req, res) {
 };
 
 // Update a vehicle by ID
-exports.vehicle_update_put = async function(req, res) {
+const vehicle_update_put = async (req, res) => {
   try {
     let vehicleToUpdate = await Vehicle.findById(req.params.id);
 
@@ -51,13 +50,8 @@ exports.vehicle_update_put = async function(req, res) {
 
     // Update fields if present in the request body
     if (req.body.vehicle_name) vehicleToUpdate.vehicle_name = req.body.vehicle_name;
-    if (req.body.vehicle_type) vehicleToUpdate.vehicle_type = req.body.vehicle_type;
-    if (req.body.max_speed) vehicleToUpdate.max_speed = req.body.max_speed;
-
-    // Handle optional checkbox for 'sale' status
-    if (req.body.checkboxsale !== undefined) {
-      vehicleToUpdate.sale = req.body.checkboxsale;
-    }
+    if (req.body.price) vehicleToUpdate.price = req.body.price;
+    if (req.body.functionality) vehicleToUpdate.functionality = req.body.functionality;
 
     const updatedVehicle = await vehicleToUpdate.save();
     res.status(200).json(updatedVehicle);
@@ -82,4 +76,11 @@ const deleteVehicle = async (req, res) => {
   }
 };
 
-module.exports = { deleteVehicle };
+// Exporting all controller functions at once
+module.exports = {
+  vehicle_create_post,
+  getAllDocuments,
+  vehicle_detail,
+  vehicle_update_put,
+  deleteVehicle
+};
