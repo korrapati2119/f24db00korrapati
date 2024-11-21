@@ -74,7 +74,7 @@ const vehicle_delete = async (req, res) => {
 };
 
 // Handle a show one view with id specified by query
-exports.vehicles_view_one_Page = async function (req, res) {
+const vehicles_view_one_Page = async (req, res) => {
   console.log("single view for id " + req.query.id);
   try {
     result = await Vehicles.findById(req.query.id);
@@ -92,5 +92,6 @@ module.exports = {
   getAllDocuments,
   vehicle_detail,
   vehicle_update_put,
-  vehicle_delete
+  vehicle_delete,
+  vehicles_view_one_Page
 };
