@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 
-const vehicleRoutes = require('./routes/vehicles'); // Vehicles routes
+const vehicleRoutes = require('./routes/vehicles'); // Vehicle routes
 const resourceRoutes = require('./routes/resource'); // Resource routes
 
 const connectionString = process.env.MONGO_CON;
@@ -20,8 +20,6 @@ const app = express();
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const vehicleRouter = require('./routes/vehicles');
-var vehiclesRouter = require('./routes/vehicles');  
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -35,10 +33,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/vehicle', vehicleRouter);
-
-app.use('/vehicles', vehicleRoutes);
-app.use('/resources', resourceRoutes);
+app.use('/vehicles', vehicleRoutes);  // Correct route for vehicle-related actions
+app.use('/resources', resourceRoutes); // Correct resource route
 
 // Default route for handling 404
 app.use((req, res) => {
@@ -52,9 +48,11 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error'); // Render error page
 });
+
 const port = 3000;
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
 module.exports = app;
