@@ -1,5 +1,5 @@
 // Import the Vehicle model
-const Vehicle = require('../models/vehicles');
+/*const Vehicle = require('../models/vehicles');
 
 // Function to handle POST request for creating a new vehicle
 const vehicle_create_post = async (req, res) => {
