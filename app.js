@@ -40,6 +40,11 @@ app.use('/vehicle', vehicleRouter);
 app.use('/vehicles', vehicleRoutes);
 app.use('/resources', resourceRoutes);
 
+// Default route for handling 404
+app.use((req, res) => {
+  res.status(404).send('Resource not found');
+});
+
 // Error handler
 app.use((err, req, res, next) => {
   res.locals.message = err.message;
