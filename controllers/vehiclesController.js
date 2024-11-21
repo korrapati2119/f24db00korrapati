@@ -73,20 +73,22 @@ const vehicle_delete = async (req, res) => {
 };
 
 /* Handle a detailed view for a specific vehicle */
-exports.vehicles_view_one_Page = async function (req, res) {
-  console.log("Single view for ID " + req.query.id)
+const vehicles_view_one_Page = async (req, res) => {
+  if (!req.query.id) {
+    return res.status(400).send("ID is required for this endpoint");
+  }
   try {
-    const result = await Vehicles.findById(req.query.id); // Fetch the vehicle by ID
+    const result = await Vehicle.findById(req.query.id); // Ensure Vehicle model is imported
     if (!result) {
       res.status(404).send("Vehicle not found");
     } else {
       res.render('vehiclesdetail', { title: 'Vehicles Detail', toShow: result });
     }
   } catch (err) {
-    res.status(500)
-    res.send(`{'error': '${err.message}'}`);
+    res.status(500).send(`{'error': '${err.message}'}`);
   }
 };
+
 
 // Export all the necessary functions at the end to avoid redundancy
 module.exports = {
