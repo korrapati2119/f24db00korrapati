@@ -24,43 +24,50 @@ exports.vehicle_detail = async (req, res) => {
   }
 };
 
+// Create a new vehicle
 exports.vehicle_create_post = async (req, res) => {
-  const newVehicle = new Vehicle(req.body);
   try {
-    const result = await newVehicle.save();
-    res.send(result);
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-  }
-};
-
-// Delete a vehicle
-exports.vehicle_delete = async (req, res) => {
-  try {
-    const result = await Vehicle.findByIdAndDelete(req.params.id);
-    if (!result) {
-      res.status(404).send({ error: "Vehicle not found" });
-    } else {
-      res.send({ message: "Vehicle deleted successfully" });
-    }
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-  }
-};
-
-// Update a vehicle
-exports.vehicle_update_put = async (req, res) => {
-  try {
-    const vehicle = await Vehicle.findById(req.params.id);
-    if (!vehicle) {
-      res.status(404).send({ error: "Vehicle not found" });
-    } else {
-      Object.assign(vehicle, req.body);
+      const vehicle = new Vehicle({
+          vehicle_name: req.body.vehicle_name,
+          price: req.body.price,
+          functionality: req.body.functionality,
+      });
       const result = await vehicle.save();
       res.send(result);
-    }
   } catch (err) {
-    res.status(500).send({ error: err.message });
+      res.status(500).send({ error: err.message });
+  }
+};
+
+// Delete a vehicle by ID
+exports.vehicle_delete = async (req, res) => {
+  try {
+      const result = await Vehicle.findByIdAndDelete(req.params.id);
+      if (!result) {
+          res.status(404).send({ error: 'Vehicle not found' });
+      } else {
+          res.send({ message: 'Vehicle deleted successfully' });
+      }
+  } catch (err) {
+      res.status(500).send({ error: err.message });
+  }
+};
+
+// Update a vehicle by ID
+exports.vehicle_update_put = async (req, res) => {
+  try {
+      const vehicle = await Vehicle.findById(req.params.id);
+      if (!vehicle) {
+          res.status(404).send({ error: 'Vehicle not found' });
+      } else {
+          vehicle.vehicle_name = req.body.vehicle_name || vehicle.vehicle_name;
+          vehicle.price = req.body.price || vehicle.price;
+          vehicle.functionality = req.body.functionality || vehicle.functionality;
+          const result = await vehicle.save();
+          res.send(result);
+      }
+  } catch (err) {
+      res.status(500).send({ error: err.message });
   }
 };
 
