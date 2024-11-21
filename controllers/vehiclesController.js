@@ -71,7 +71,6 @@ const vehicle_delete = async (req, res) => {
     res.status(500).json({ message: "Error deleting vehicle", error: err.message });
   }
 };
-const Vehicle = require('../models/vehicles');
 
 /* Handle a detailed view for a specific vehicle */
 exports.vehicles_view_one_Page = async function (req, res) {
