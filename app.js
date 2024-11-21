@@ -22,7 +22,7 @@ var gridRouter = require('./routes/grid');
 var pickRouter = require('./routes/pick');
 const Vehicles = require('./models/vehicles');
 const resourceRouter  = require('./routes/resource');
-const vehicleRouter = require('./routes/vehicles');
+const vehiclesRouter = require('./routes/vehicles');
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -36,7 +36,7 @@ app.use(cookieParser()); // Cookie parser middleware
 app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from "public" directory
 
 // Use the routes
-app.use('/vehicles',vehicleRouter);
+app.use('/vehicles',vehiclesRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('grid',gridRouter);
