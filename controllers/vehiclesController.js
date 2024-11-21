@@ -74,7 +74,7 @@ const vehicle_delete = async (req, res) => {
 
 /* Handle a detailed view for a specific vehicle */
 exports.vehicles_view_one_Page = async function (req, res) {
-  console.log("Single view for ID " + req.query.id);
+  console.log("Single view for ID " + req.query.id)
   try {
     const result = await Vehicles.findById(req.query.id); // Fetch the vehicle by ID
     if (!result) {
@@ -83,7 +83,8 @@ exports.vehicles_view_one_Page = async function (req, res) {
       res.render('vehiclesdetail', { title: 'Vehicles Detail', toShow: result });
     }
   } catch (err) {
-    res.status(500).send(`{'error': '${err.message}'}`);
+    res.status(500)
+    res.send(`{'error': '${err.message}'}`);
   }
 };
 
@@ -93,5 +94,7 @@ module.exports = {
   getAllDocuments,
   vehicle_detail,
   vehicle_update_put,
-  vehicle_delete
+  vehicle_delete,
+  vehicles_view_one_Page,
 };
+
