@@ -45,8 +45,10 @@ app.use('/resource', resourceRouter); // Resources route
 
 // Catch 404 and forward to error handler
 app.use((req, res, next) => {
-  next(createError(404));  // Forward 404 error to error handler
+  res.status(404);
+  res.render('error', { message: 'Page Not Found', error: {} });
 });
+
 
 // Error handler
 app.use((err, req, res, next) => {

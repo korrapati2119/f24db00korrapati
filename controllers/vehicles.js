@@ -1,7 +1,7 @@
 const Vehicle = require('../models/vehicles');
 
 // List all vehicles
-exports.vehicle_list = async function (req, res) {
+exports.vehicle_list = async (req, res) => {
   try {
     const vehicles = await Vehicle.find();
     res.send(vehicles);
@@ -11,63 +11,56 @@ exports.vehicle_list = async function (req, res) {
 };
 
 // View a single vehicle by ID
-exports.vehicle_detail = async function (req, res) {
+exports.vehicle_detail = async (req, res) => {
   try {
-    const result = await Vehicle.findById(req.params.id);
-    if (!result) {
+    const vehicle = await Vehicle.findById(req.query.id);
+    if (!vehicle) {
       res.status(404).send({ "error": "Vehicle not found" });
     } else {
-      res.send(result);
+      res.send(vehicle);
     }
   } catch (err) {
     res.status(500).send({ "error": err.message });
   }
 };
 
-// Create a new vehicle
-exports.vehicle_create_post = async function (req, res) {
+exports.vehicle_create_post = async (req, res) => {
+  const newVehicle = new Vehicle(req.body);
   try {
-    const vehicle = new Vehicle({
-      vehicle_name: req.body.vehicle_name,
-      price: req.body.price,
-      functionality: req.body.functionality
-    });
-    const result = await vehicle.save();
+    const result = await newVehicle.save();
     res.send(result);
   } catch (err) {
-    res.status(500).send({ "error": err.message });
+    res.status(500).send({ error: err.message });
   }
 };
 
-// Delete a vehicle by ID
-exports.vehicle_delete = async function (req, res) {
+// Delete a vehicle
+exports.vehicle_delete = async (req, res) => {
   try {
     const result = await Vehicle.findByIdAndDelete(req.params.id);
     if (!result) {
-      res.status(404).send({ "error": "Vehicle not found" });
+      res.status(404).send({ error: "Vehicle not found" });
     } else {
-      res.send({ "message": `Vehicle ${req.params.id} deleted successfully` });
+      res.send({ message: "Vehicle deleted successfully" });
     }
   } catch (err) {
-    res.status(500).send({ "error": err.message });
+    res.status(500).send({ error: err.message });
   }
 };
 
-// Update a vehicle by ID
-exports.vehicle_update_put = async function (req, res) {
+// Update a vehicle
+exports.vehicle_update_put = async (req, res) => {
   try {
     const vehicle = await Vehicle.findById(req.params.id);
     if (!vehicle) {
-      res.status(404).send({ "error": "Vehicle not found" });
-      return;
+      res.status(404).send({ error: "Vehicle not found" });
+    } else {
+      Object.assign(vehicle, req.body);
+      const result = await vehicle.save();
+      res.send(result);
     }
-    vehicle.vehicle_name = req.body.vehicle_name || vehicle.vehicle_name;
-    vehicle.price = req.body.price || vehicle.price;
-    vehicle.functionality = req.body.functionality || vehicle.functionality;
-    const result = await vehicle.save();
-    res.send(result);
   } catch (err) {
-    res.status(500).send({ "error": err.message });
+    res.status(500).send({ error: err.message });
   }
 };
 
