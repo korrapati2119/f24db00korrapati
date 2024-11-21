@@ -2,40 +2,24 @@ const express = require('express');
 const router = express.Router();
 
 // Require the vehicles controller
-const vehiclesController = require('../controllers/vehiclesController');
+const api_controller = require('../controllers/api');
+const vehiclesController = require('../controllers/vehicles');
 
-// API Routes for Vehicle resource
+router.get('/', api_controller.api);
 
-// GET: List all vehicles
-router.get('/vehicles', vehiclesController.getAllDocuments);
-
-// POST: Create a new vehicle
-router.post('/vehicles', vehiclesController.vehicle_create_post);
-
-// GET: Retrieve details of a specific vehicle by ID
-router.get('/vehicles/:id', vehiclesController.vehicle_detail);
-
-// PUT: Update a specific vehicle by ID
-router.put('/vehicles/:id', vehiclesController.vehicle_update_put);
-
-// DELETE: Delete a specific vehicle by ID
-router.delete('/vehicles/:id', vehiclesController.vehicle_delete);
-
-// Page Routes for Vehicle resource (if you are serving HTML pages)
-
-// GET: View all vehicles (HTML page)
+// API routes for vehicles
+router.post('/vehicles', vehiclesController.vehicles_create_post);
+router.get('/vehicles', vehiclesController.vehicles_list);
 router.get('/vehicles/all', vehiclesController.vehicles_view_all_Page);
+/* GET create vehicles page */
+router.get('/vehicles/create', vehiclesController.vehicles_create_Page);
 
-// GET: View a single vehicle's detail page
+// GET detail page for a specific vehicle (using query parameter)
 router.get('/vehicles/detail', vehiclesController.vehicles_view_one_Page);
-
-// GET: Render form to create a vehicle
-router.get('/vehicles/create', vehiclesController.vehicles_create_get);
-
-// GET: Render form to update a vehicle
-router.get('/vehicles/update', vehiclesController.vehicles_update_get);
-
-// GET: Render form to delete a vehicle
-router.get('/vehicles/delete', vehiclesController.vehicles_delete_get);
+/* GET update page for vehicle */
+router.get('/update', vehiclesController.vehicles_update_Page);
+router.get('/vehicles/:id', vehiclesController.vehicles_detail);
+router.put('/vehicles/:id', vehiclesController.vehicles_update_put);
+router.delete('/vehicles/:id', vehiclesController.vehicles_delete);
 
 module.exports = router;
