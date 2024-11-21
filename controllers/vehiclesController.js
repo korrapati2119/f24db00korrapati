@@ -71,6 +71,22 @@ const vehicle_delete = async (req, res) => {
     res.status(500).json({ message: "Error deleting vehicle", error: err.message });
   }
 };
+const Vehicle = require('../models/vehicles');
+
+/* Handle a detailed view for a specific vehicle */
+exports.vehicles_view_one_Page = async function (req, res) {
+  console.log("Single view for ID " + req.query.id);
+  try {
+    const result = await Vehicles.findById(req.query.id); // Fetch the vehicle by ID
+    if (!result) {
+      res.status(404).send("Vehicle not found");
+    } else {
+      res.render('vehiclesdetail', { title: 'Vehicles Detail', toShow: result });
+    }
+  } catch (err) {
+    res.status(500).send(`{'error': '${err.message}'}`);
+  }
+};
 
 // Export all the necessary functions at the end to avoid redundancy
 module.exports = {
