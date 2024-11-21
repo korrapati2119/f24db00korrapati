@@ -1,14 +1,19 @@
 const Vehicle = require('../models/vehicles');
 
-// List all vehicles
-exports.getAllDocuments = async function(req, res) {
+// controllers/vehiclesController.js
+
+// Function to handle GET request for fetching all vehicles
+const getAllDocuments = async (req, res) => {
   try {
-    const vehicles = await Vehicle.find();  // Fetch all vehicles
-    res.status(200).json(vehicles);
+    const vehicles = await Vehicle.find();  // Fetch all vehicles from the database
+    res.status(200).json(vehicles);  // Respond with the vehicles in JSON format
   } catch (err) {
     res.status(500).json({ message: 'Error fetching vehicles', error: err.message });
   }
 };
+
+module.exports = { getAllDocuments };
+
 
 // Create a new vehicle
 exports.vehicle_create_post = async function(req, res) {
@@ -30,18 +35,26 @@ exports.vehicle_create_post = async function(req, res) {
   }
 };
 
-// Get a specific vehicle by ID
-exports.vehicle_detail = async function(req, res) {
+// Export the create function
+module.exports = { vehicle_create_post };
+
+// controllers/vehiclesController.js
+
+// Function to handle GET request for a specific vehicle by ID
+const vehicle_detail = async (req, res) => {
   try {
-    const vehicle = await Vehicle.findById(req.params.id);
+    const vehicle = await Vehicle.findById(req.params.id);  // Fetch a specific vehicle by ID
     if (!vehicle) {
-      return res.status(404).json({ message: "Vehicle not found" });
+      return res.status(404).json({ message: "Vehicle not found" });  // Handle if vehicle not found
     }
-    res.json(vehicle);
+    res.json(vehicle);  // Respond with the vehicle details in JSON format
   } catch (err) {
     res.status(500).json({ error: 'Error fetching vehicle', message: `Document for ID ${req.params.id} not found` });
   }
 };
+
+module.exports = { vehicle_detail };
+
 
 // Update a vehicle by ID
 exports.vehicle_update_put = async function(req, res) {
