@@ -18,6 +18,15 @@ router.put('/:id', vehiclesController.vehicle_update_put);  // Update vehicle by
 router.delete('/:id', vehiclesController.vehicle_delete);  // Delete vehicle by ID
 
 /* GET detail vehicle page */
-router.get('/detail', vehiclesController.vehicle_view_one_Page); // Handle a show one view with id specified by query
+router.get('/detail', vehiclesController.vehicles_view_one_Page); // Handle a show one view with id specified by query
+
+router.get('/create', vehiclesController.vehicles_create_get);
+router.post('/create', vehiclesController.vehicles_create_post);
+
+router.get('/update', vehiclesController.vehicles_update_get);
+router.post('/update', vehiclesController.vehicles_update_post);
+
+router.get('/delete', vehiclesController.vehicles_delete_get);
+router.post('/delete', vehiclesController.vehicles_delete_post);
 
 module.exports = router;
