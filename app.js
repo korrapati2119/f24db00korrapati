@@ -43,4 +43,23 @@ app.use('/vehicles', vehicleRoutes);  // Vehicle routes
 app.use('/resources', resourceRoutes); // Resources route
 
 // Catch 404 and forward to error handler
-app.use((req, res, 
+app.use((req, res, next) => {
+  next(createError(404));  // Forward 404 error to error handler
+});
+
+// Error handler
+app.use((err, req, res, next) => {
+  // Set locals for error message and stack trace
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};  // Detailed error in dev environment
+  res.status(err.status || 500);  // Default to 500 if no status
+  res.render('error');  // Render error view
+});
+
+// Set the port and start the server
+const port = 3001;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+module.exports = app;
