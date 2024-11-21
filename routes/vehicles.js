@@ -1,17 +1,12 @@
-// routes/vehicles.js
 const express = require('express');
 const router = express.Router();
-const {
-  vehicle_create_post,
-  getAllDocuments,
-  vehicle_detail,
-  vehicle_update_put,
-  deleteVehicle
-} = require('../controllers/vehiclesController');
+const vehiclesController = require('../controllers/vehiclesController');
 
-router.post('/', vehicle_create_post);
-router.get('/', getAllDocuments);
-router.get('/:id', vehicle_detail);
-router.put('/:id', vehicle_update_put);
+// Use the controller methods in the routes
+router.post('/vehicles', vehiclesController.vehicle_create_post);
+router.get('/vehicles', vehiclesController.getAllDocuments);
+router.get('/vehicles/:id', vehiclesController.vehicle_detail);
+router.put('/vehicles/:id', vehiclesController.vehicle_update_put);
+router.delete('/vehicles/:id', vehiclesController.vehicle_delete);
 
 module.exports = router;
