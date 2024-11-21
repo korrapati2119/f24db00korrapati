@@ -41,7 +41,7 @@ app.use('/vehicles', vehicleRoutes);
 app.use('/resources', resourceRoutes);
 
 // Error handler
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {}; // Show detailed error in dev environment
   res.status(err.status || 500);
