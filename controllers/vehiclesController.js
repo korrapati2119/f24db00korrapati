@@ -87,7 +87,6 @@ exports.vehicles_view_one_Page = async function (req, res) {
   }
 };
 
-
 // Export all the necessary functions at the end to avoid redundancy
 module.exports = {
   vehicle_create_post,
@@ -95,6 +94,6 @@ module.exports = {
   vehicle_detail,
   vehicle_update_put,
   vehicle_delete,
-  vehicles_view_one_Page,
+  vehicles_view_one_Page, // Make sure this matches the function definition exactly
 };
 
