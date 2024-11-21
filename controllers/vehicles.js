@@ -12,11 +12,8 @@ const getAllDocuments = async (req, res) => {
   }
 };
 
-module.exports = { getAllDocuments };
-
-
 // Create a new vehicle
-exports.vehicle_create_post = async function(req, res) {
+const vehicle_create_post = async (req, res) => {
   if (!req.body.vehicle_name || !req.body.vehicle_type || !req.body.max_speed) {
     return res.status(400).json({ message: "Missing required fields: vehicle_name, vehicle_type, and max_speed" });
   }
@@ -35,11 +32,6 @@ exports.vehicle_create_post = async function(req, res) {
   }
 };
 
-// Export the create function
-module.exports = { vehicle_create_post };
-
-// controllers/vehiclesController.js
-
 // Function to handle GET request for a specific vehicle by ID
 const vehicle_detail = async (req, res) => {
   try {
@@ -53,11 +45,8 @@ const vehicle_detail = async (req, res) => {
   }
 };
 
-module.exports = { vehicle_detail };
-
-
-// Update a vehicle by ID
-exports.vehicle_update_put = async function(req, res) {
+// Function to handle PUT request to update a vehicle by ID
+const vehicle_update_put = async (req, res) => {
   try {
     let vehicleToUpdate = await Vehicle.findById(req.params.id);
 
@@ -65,25 +54,20 @@ exports.vehicle_update_put = async function(req, res) {
       return res.status(404).json({ message: "Vehicle not found" });
     }
 
-    // Update fields if present in the request body
+    // Update fields based on request body
     if (req.body.vehicle_name) vehicleToUpdate.vehicle_name = req.body.vehicle_name;
-    if (req.body.vehicle_type) vehicleToUpdate.vehicle_type = req.body.vehicle_type;
-    if (req.body.max_speed) vehicleToUpdate.max_speed = req.body.max_speed;
-
-    // Handle optional checkbox for 'sale' status
-    if (req.body.checkboxsale !== undefined) {
-      vehicleToUpdate.sale = req.body.checkboxsale;
-    }
+    if (req.body.price) vehicleToUpdate.price = req.body.price;
+    if (req.body.functionality) vehicleToUpdate.functionality = req.body.functionality;
 
     const updatedVehicle = await vehicleToUpdate.save();
-    res.status(200).json(updatedVehicle);
+    res.status(200).json(updatedVehicle);  // Respond with updated vehicle
   } catch (err) {
     res.status(500).json({ error: `Update for vehicle ID ${req.params.id} failed.`, details: err.message });
   }
 };
 
 // Delete a vehicle by ID
-exports.vehicle_delete = async function(req, res) {
+const vehicle_delete = async (req, res) => {
   try {
     const vehicle = await Vehicle.findByIdAndDelete(req.params.id);
     if (!vehicle) {
@@ -93,4 +77,13 @@ exports.vehicle_delete = async function(req, res) {
   } catch (err) {
     res.status(500).json({ message: "Error deleting vehicle", error: err.message });
   }
+};
+
+// Exporting all controller functions at once
+module.exports = {
+  getAllDocuments,
+  vehicle_create_post,
+  vehicle_detail,
+  vehicle_update_put,
+  vehicle_delete
 };
