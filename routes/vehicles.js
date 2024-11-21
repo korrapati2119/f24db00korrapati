@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const vehiclesControllers = require('../controllers/vehiclesController');
+const vehiclesController = require('../controllers/vehiclesController');
 
 // Route to create a new vehicle
 router.post('/', vehiclesController.vehicle_create_post);  // Create new vehicle
