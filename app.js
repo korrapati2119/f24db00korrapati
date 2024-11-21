@@ -22,7 +22,7 @@ var gridRouter = require('./routes/grid');
 var pickRouter = require('./routes/pick');
 const Vehicles = require('./models/vehicles');
 const resourceRouter  = require('./routes/resource');
-var vehicleRouter = require('./routes/vehicles');
+const vehicleRouter = require('./routes/vehicles');
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -36,7 +36,7 @@ app.use(cookieParser()); // Cookie parser middleware
 app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from "public" directory
 
 // Use the routes
-app.use('/vehicles',vehiclesRouter);
+app.use('/vehicles',vehicleRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('grid',gridRouter);
@@ -56,6 +56,17 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);  // Default to 500 if no status
   res.render('error');  // Render error view
 });
+async function recreateDB() {
+  await Vehicle.deleteMany();
+
+  const vehicle1 = new Vehicle({ vehicle_name: "Sedan", price: 20000, functionality: "Transportation" });
+  const vehicle2 = new Vehicle({ vehicle_name: "Sport Bike", price: 15000, functionality: "Recreational" });
+  const vehicle3 = new Vehicle({ vehicle_name: "SUV", price: 25000, functionality: "Transportation" });
+
+  await vehicle1.save();
+  await vehicle2.save();
+  await vehicle3.save();
+}
 
 // Set the port and start the server
 const port = 3001;
