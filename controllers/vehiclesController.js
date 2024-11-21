@@ -94,6 +94,6 @@ module.exports = {
   vehicle_detail,
   vehicle_update_put,
   vehicle_delete,
-  vehicles_view_one_Page, // Make sure this matches the function definition exactly
+  vehicles_view_one_Page // Make sure this matches the function definition exactly
 };
 
