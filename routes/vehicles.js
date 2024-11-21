@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const vehicleController = require('../controllers/vehiclesController'); // Ensure the correct import
+const vehicleController = require('../controllers/vehicles'); // Ensure the correct import
 
 // Correct routes for vehicle-related actions
 router.post('/', vehicleController.vehicle_create_post);  // Create new vehicle
