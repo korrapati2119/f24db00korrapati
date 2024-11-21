@@ -76,7 +76,7 @@ const vehicle_delete = async (req, res) => {
 exports.vehicles_view_one_Page = async function (req, res) {
   console.log("Single view for ID " + req.query.id);
   try {
-    const result = await Vehicles.findById(req.query.id); // Fetch the vehicle by ID
+    const result = await Vehicle.findById(req.query.id); // Use the correct model name
     if (!result) {
       res.status(404).send("Vehicle not found");
     } else {
@@ -86,6 +86,7 @@ exports.vehicles_view_one_Page = async function (req, res) {
     res.status(500).send(`{'error': '${err.message}'}`);
   }
 };
+
 
 // Export all the necessary functions at the end to avoid redundancy
 module.exports = {
