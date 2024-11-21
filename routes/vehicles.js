@@ -1,5 +1,4 @@
 // routes/vehicles.js
-
 const express = require('express');
 const router = express.Router();
 const {
@@ -8,7 +7,7 @@ const {
   vehicle_detail,
   vehicle_update_put,
   deleteVehicle
-} = require('../controllers/vehiclesController');  // Import controller functions
+} = require('../controllers/vehiclesController');
 
 // Route for creating a new vehicle (POST)
 router.post('/', vehicle_create_post);
