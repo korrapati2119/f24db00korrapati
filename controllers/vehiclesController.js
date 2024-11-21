@@ -1,5 +1,4 @@
 const Vehicle = require('../models/vehicles');
-const { vehicles_view_one_Page } = require('./vehicles');
 
 // Function to render the vehicle creation form
 exports.vehicles_create_get = (req, res) => {
