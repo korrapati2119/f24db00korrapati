@@ -5,16 +5,16 @@ html
   //- Unbuffered code block to define the array of results
   -
     const results = [
-      { vehicle_name: 'Sedan', vehicle_type: 'Car', max_speed: 180 },
-      { vehicle_name: 'Sport Bike', vehicle_type: 'Motorcycle', max_speed: 220 },
-      { vehicle_name: 'SUV', vehicle_type: 'Car', max_speed: 160 }
+       { vehicle_name: 'Sedan', "price": 20000, "functionality": "Transportation"},
+      { vehicle_name: 'Sport Bike', "price": 15000, "functionality": "Recreational"},
+      { vehicle_name: 'SUV',"price": 15000,"functionality": "Transportation"}
     ];
 
 each item, index in results
           .col-sm-2
             h2 #{item.vehicle_name}
-            p Car: #{item.vehicle_type} years
-            p Speed: #{item.max_speed}
+            p Car: #{item.price} years
+            p Speed: #{item.functionality}
             button(class="buy-btn" data-index=index data-name=item.vehicle_name) Buy
 
 div.container-fluid
@@ -22,8 +22,8 @@ div.container-fluid
       - for (const vehicle of results)
         div.col-sm-2
           p Vehicle Name: #{vehicle.vehicle_name}
-          p Vehicle Type: #{vehicle.vehicle_type}
-          p Max Speed: #{vehicle.max_speed} km/h
+          p price: #{vehicle.price}
+          p functionality: #{vehicle.functionality} km/h
 
     script.
       document.addEventListener('DOMContentLoaded', function() {
