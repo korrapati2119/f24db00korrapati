@@ -1,6 +1,21 @@
 const Vehicle = require('../models/vehicles');
 const { vehicles_view_one_Page } = require('./vehicles');
 
+// Function to render the vehicle creation form
+exports.vehicles_create_get = (req, res) => {
+  res.render('vehiclesCreateForm', { title: 'Create Vehicle' });
+};
+
+// Function to render the vehicle update form
+exports.vehicles_update_get = (req, res) => {
+  res.render('vehiclesUpdateForm', { title: 'Update Vehicle' });
+};
+
+// Function to render the vehicle delete form
+exports.vehicles_delete_get = (req, res) => {
+  res.render('vehiclesDeleteForm', { title: 'Delete Vehicle' });
+};
+
 // Function to handle POST request for creating a new vehicle
 const vehicle_create_post = async (req, res) => {
   try {
