@@ -60,21 +60,18 @@ const vehicle_update_put = async (req, res) => {
   }
 };
 
-// Delete a vehicle by ID
-const deleteVehicle = async (req, res) => {
+exports.costume_delete = async function(req, res) {
+  console.log("delete " + req.params.id)
   try {
-    const vehicleId = req.params.id; // Get vehicle ID from the URL parameter
-    const deletedVehicle = await Vehicle.findByIdAndDelete(vehicleId);
-
-    if (!deletedVehicle) {
-      return res.status(404).json({ message: 'Vehicle not found' });
-    }
-
-    res.status(200).json({ message: 'Vehicle deleted successfully', deletedVehicle });
+  result = await Costume.findByIdAndDelete( req.params.id)
+  console.log("Removed " + result)
+  res.send(result)
   } catch (err) {
-    res.status(500).json({ message: 'Server Error', error: err });
+  res.status(500)
+  res.send(`{"error": Error deleting ${err}}`);
   }
-};
+ };
+ 
 
 // Exporting all controller functions at once
 module.exports = {
