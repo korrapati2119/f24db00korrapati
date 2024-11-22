@@ -42,6 +42,7 @@ app.use('/users', usersRouter);
 app.use('grid',gridRouter);
 app.use('/vehicles', vehiclesRouter);  // Vehicle routes
 app.use('/resource', resourceRouter); // Resources route
+app.use(express.static('public'));
 
 // Catch 404 and forward to error handler
 app.use((req, res, next) => {
