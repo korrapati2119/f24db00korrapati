@@ -22,6 +22,7 @@ router.delete('/:id', vehiclesController.vehicle_delete); // Delete a vehicle
 router.get('/create/page', vehiclesController.vehicle_create_Page); // Render Create Page
 router.get('/update/page', vehiclesController.vehicle_update_Page); // Render Update Page
 router.get('/delete/page', vehiclesController.vehicle_delete_Page); // Render Delete Page
-router.get('/view/page', vehiclesController.vehicle_view_one_Page); // Render Single Vehicle Detail Page
+router.get('/view/page', vehiclesController.vehicle_view_all_Page); // Render All Vehicles Page
+router.get('/view/:id', vehiclesController.vehicle_view_one_Page); // Render Single Vehicle Page
 
 module.exports = router;
