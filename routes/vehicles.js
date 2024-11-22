@@ -5,7 +5,6 @@ console.log(vehiclesController);
 console.log('Testing route setup...');
 console.log('vehicle_list:', vehiclesController.vehicle_list);
 
-router.get('/create', vehiclesController.vehicle_create_get);
 router.post('/create', vehiclesController.vehicle_create_post);
 // API Routes
 router.get('/', vehiclesController.vehicle_list); // List all vehicles

@@ -10,35 +10,28 @@ exports.vehicle_list = async (req, res) => {
   }
 };
 
-
-// POST: Create a new vehicle
-exports.vehicle_create_post = async (req, res) => {
-  try {
-    const vehicle = new Vehicle(req.body);
-    const result = await vehicle.save();
-    res.status(201).send(result);
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-  }
-};
-
-// Handle "Create Vehicle" form submission
 exports.vehicle_create_post = async (req, res) => {
   const { vehicle_name, price, functionality } = req.body;
-
   try {
     const newVehicle = new Vehicle({
       vehicle_name,
       price,
       functionality,
     });
+    const result = await newVehicle.save();
 
-    await newVehicle.save();
-    res.redirect('/vehicles'); // Redirect to the vehicle list page after creation
+    // If `redirect` is needed, check the condition or remove it.
+    if (req.body.redirect) {
+      res.redirect('/vehicles'); // Redirect after successful creation
+    } else {
+      res.status(201).send(result); // Send JSON response
+    }
   } catch (error) {
-    res.status(500).send('Error creating vehicle: ' + error.message);
+    res.status(500).send({ error: error.message });
   }
 };
+
+
 
 // View a single vehicle by ID
 exports.vehicle_detail = async (req, res) => {
@@ -115,7 +108,7 @@ exports.vehicle_delete_Page = async (req, res) => {
 };
 
 // Web page for all vehicles
-exports.vehicle_view_all_Page = async function (req, res) {
+exports.vehicle_view_all_Page = async (req, res) => {
   try {
     const vehicles = await Vehicle.find();
     res.render('vehicles', { title: 'Vehicles', results: vehicles });
