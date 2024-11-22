@@ -70,6 +70,23 @@ exports.vehicle_update_put = async (req, res) => {
       res.status(500).send({ error: err.message });
   }
 };
+// Handle "Create Vehicle" form submission
+exports.vehicle_create_post = async (req, res) => {
+  const { vehicle_name, price, functionality } = req.body;
+
+  try {
+    const newVehicle = new Vehicle({
+      vehicle_name,
+      price,
+      functionality,
+    });
+
+    await newVehicle.save();
+    res.redirect('/vehicles'); // Redirect to the vehicle list page after creation
+  } catch (error) {
+    res.status(500).send('Error creating vehicle: ' + error.message);
+  }
+};
 
 // Web page for all vehicles
 exports.vehicle_view_all_Page = async function (req, res) {
