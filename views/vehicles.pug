@@ -1,37 +1,16 @@
-doctype html
-html
-  head
-    link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
-  body
-    //- Unbuffered code block to define the array of results
-    - const results = [
-        { vehicle_name: 'Sedan', price: 20000, functionality: 'Transportation' },
-        { vehicle_name: 'Sport Bike', price: 15000, functionality: 'Recreational' },
-        { vehicle_name: 'SUV', price: 15000, functionality: 'Transportation' }
-      ];
+extends layout
 
-    div.container-fluid
-      div.row
-        //- Loop through each vehicle and display its details
-        each vehicle, index in results
-          div.col-sm-4
-            h2= vehicle.vehicle_name
-            p Price: #{vehicle.price}
-            p Functionality: #{vehicle.functionality}
-            button.buy-btn(data-index=index, data-name=vehicle.vehicle_name) Buy
+head
+  link(rel="stylesheet", href="/styles.css")
 
-    script.
-      document.addEventListener('DOMContentLoaded', function() {
-        const buyButtons = document.querySelectorAll('.buy-btn');
-        buyButtons.forEach(button => {
-          button.addEventListener('click', function() {
-            const index = button.getAttribute('data-index');
-            const name = button.getAttribute('data-name');
-            buy(index, name);
-          });
-        });
-      });
-
-      function buy(index, name) {
-        alert("You purchased item " + index + ": " + name);
-      }
+block content
+  h1 Vehicle Results
+  ul
+    each vehicle in results
+      li
+        div.vehicleAttr
+          | Vehicle Name: #{vehicle.vehicle_name}
+        div.vehicleAttr
+          | Price: #{vehicle.price}
+        div.vehicleAttr
+          | Functionality: #{vehicle.functionality}
