@@ -1,19 +1,31 @@
 extends layout
-
 block content
-  h1= title
-
-  form(action="/vehicles/create", method="POST")
-    div.form-group
-      label(for="vehicle_name") Vehicle Name:
-      input#vehicle_name(type="text", name="vehicle_name", required=true)
-
-    div.form-group
-      label(for="price") Price:
-      input#price(type="number", name="price", required=true)
-
-    div.form-group
-      label(for="functionality") Functionality:
-      input#functionality(type="text", name="functionality", required=true)
-
-    button(type="submit") Create Vehicle
+ h1= title
+ form(id='VehicleForm', action="/resource/vehicles", method="POST")
+ div.form-group
+ label.vehicleAttr(for='vehicle_type') Vehicle type
+ input#vehicle_type(type='text', name='vehicle_type')
+ div.form-group
+ label.vehicleAttr(for='size') Vehicle size
+ input#size(type='text', name='size')
+ div.form-group
+ label.vehicleAttr(for='cost') Vehicle cost
+ input#cost(type='number', name='cost')
+ input(type="submit")
+ script.
+ document.forms['VehicleForm'].addEventListener('submit', (event) => {
+ event.preventDefault();
+ // TODO do something here to show user that form is being submitted
+ fetch(event.target.action, {
+ method: 'POST',
+ body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+ }).then((resp) => {
+ return resp.json(); // or resp.text() or whatever the server sends
+ }).then((body) => {
+ alert("Save succeded")
+ // TODO handle body
+ }).catch((error) => {
+ // TODO handle error
+ alert("Save failed " + error )
+ });
+ });
