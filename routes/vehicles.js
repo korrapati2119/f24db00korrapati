@@ -8,7 +8,7 @@ router.post('/', vehiclesController.vehicle_create_post); // Create a vehicle
 router.put('/:id', vehiclesController.vehicle_update_put); // Update vehicle by ID
 router.delete('/:id', vehiclesController.vehicle_delete); // Delete vehicle by ID
 
-router.get('/create', vehicleController.vehicle_create_get);
+router.get('/create', vehiclesController.vehicle_create_get);
 router.post('/create', vehicleController.vehicle_create_post);
 // API Routes
 router.get('/', vehiclesController.vehicle_list); // List all vehicles
