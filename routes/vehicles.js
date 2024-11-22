@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const vehiclesController = require('../controllers/vehicles');
+console.log(vehiclesController);
 
 router.get('/', vehiclesController.vehicle_list); // List all vehicles
 router.get('/detail', vehiclesController.vehicle_detail); // Vehicle detail by ID
