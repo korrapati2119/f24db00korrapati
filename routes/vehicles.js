@@ -2,11 +2,14 @@ const express = require('express');
 const router = express.Router();
 const vehicleController = require('../controllers/vehicles');
 
-router.get('/all', vehicleController.vehicle_list); // List all vehicles
+router.get('/', vehicleController.vehicle_list); // List all vehicles
 router.get('/detail', vehicleController.vehicle_detail); // Vehicle detail by ID
-router.post('/create', vehicleController.vehicle_create_post); // Create a vehicle
+router.post('/', vehicleController.vehicle_create_post); // Create a vehicle
 router.put('/:id', vehicleController.vehicle_update_put); // Update vehicle by ID
 router.delete('/:id', vehicleController.vehicle_delete); // Delete vehicle by ID
+
+router.get('/create', vehicleController.vehicle_create_get);
+router.post('/create', vehicleController.vehicle_create_post);
 
 // API routes
 router.post('/vehicles', vehicleController.vehicle_create_post);
