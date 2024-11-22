@@ -24,6 +24,26 @@ const Vehicles = require('./models/vehicles');
 const resourceRouter  = require('./routes/resource');
 const vehiclesRouter = require('./routes/vehicles');
 
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+passport.use(new LocalStrategy(
+  function (username, password, done) {
+    Account.findOne({ username: username })
+      .then(function (user) {
+        if (err) { return done(err); }
+        if (!user) {
+          return done(null, false, { message: 'Incorrect username.' });
+        }
+        if (!user.validPassword(password)) {
+          return done(null, false, { message: 'Incorrect password.' });
+        }
+        return done(null, user);
+      })
+      .catch(function (err) {
+        return done(err)
+      })
+  })
+)
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug'); // Pug templating engine
@@ -33,35 +53,39 @@ app.use(logger('dev')); // Logger middleware
 app.use(express.json()); // JSON parser middleware
 app.use(express.urlencoded({ extended: true })); // URL-encoded body parser middleware
 app.use(cookieParser()); // Cookie parser middleware
+app.use(require('express-session')({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false
+}));
 app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from "public" directory
-
 // Use the routes
 app.use('/vehicles',vehiclesRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('grid',gridRouter);
-app.use('/vehicles', vehiclesRouter);  // Vehicle routes
+app.use('/randomitem',pickRouter);
 app.use('/resource', resourceRouter); // Resources route
+app.use(passport.initialize());
+app.use(passport.session());
+// passport config
+// Use the existing connection
+// The Account model
+var Account =require('./models/account');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
 app.use(express.static('public'));
 
-// Catch 404 and forward to error handler
-app.use((req, res, next) => {
-  res.status(404);
-  res.render('error', { message: 'Page Not Found', error: {} });
-});
-// Error handling
-app.use((req, res) => {
-  res.status(404).send({ error: 'Route not found' });
+// Error handler
+app.use(function (err, req, res, next) {
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  res.status(err.status || 500);
+  res.render('error');
 });
 
-// Error handler
-app.use((err, req, res, next) => {
-  // Set locals for error message and stack trace
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};  // Detailed error in dev environment
-  res.status(err.status || 500);  // Default to 500 if no status
-  res.render('error');  // Render error view
-});
 async function recreateDB() {
   await Vehicle.deleteMany();
 
