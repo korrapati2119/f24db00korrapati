@@ -2,12 +2,8 @@ const express = require('express');
 const router = express.Router();
 const vehiclesController = require('../controllers/vehicles');
 console.log(vehiclesController);
-
-router.get('/', vehiclesController.vehicle_list); // List all vehicles
-router.get('/detail', vehiclesController.vehicle_detail); // Vehicle detail by ID
-router.post('/', vehiclesController.vehicle_create_post); // Create a vehicle
-router.put('/:id', vehiclesController.vehicle_update_put); // Update vehicle by ID
-router.delete('/:id', vehiclesController.vehicle_delete); // Delete vehicle by ID
+console.log('Testing route setup...');
+console.log('vehicle_list:', vehiclesController.vehicle_list);
 
 router.get('/create', vehiclesController.vehicle_create_get);
 router.post('/create', vehiclesController.vehicle_create_post);
