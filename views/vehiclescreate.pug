@@ -1,7 +1,7 @@
 extends layout
 block content
  h1= title
- form(id='VehicleForm', action="/resource/vehicles", method="POST")
+ form(id='VehicleForm', action="/resource/vehicles/create", method="POST")
  div.form-group
  label.vehicleAttr(for='vehicle_type') Vehicle type
  input#vehicle_type(type='text', name='vehicle_type')
