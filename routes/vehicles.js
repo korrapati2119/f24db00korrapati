@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const vehicleController = require('../controllers/vehicles');
+const vehiclesController = require('../controllers/vehicles');
 
 router.get('/', vehicleController.vehicle_list); // List all vehicles
 router.get('/detail', vehicleController.vehicle_detail); // Vehicle detail by ID
@@ -10,19 +10,17 @@ router.delete('/:id', vehicleController.vehicle_delete); // Delete vehicle by ID
 
 router.get('/create', vehicleController.vehicle_create_get);
 router.post('/create', vehicleController.vehicle_create_post);
+// API Routes
+router.get('/', vehiclesController.vehicle_list); // List all vehicles
+router.post('/create', vehiclesController.vehicle_create_post); // Create a new vehicle
+router.get('/:id', vehiclesController.vehicle_detail); // Get vehicle details by ID
+router.put('/:id', vehiclesController.vehicle_update_put); // Update a vehicle
+router.delete('/:id', vehiclesController.vehicle_delete); // Delete a vehicle
 
-// API routes
-router.post('/vehicles', vehicleController.vehicle_create_post);
-router.get('/vehicles', vehicleController.vehicle_list);
-router.get('/vehicles/:id', vehicleController.vehicle_detail);
-router.put('/vehicles/:id', vehicleController.vehicle_update_put);
-router.delete('/vehicles/:id', vehicleController.vehicle_delete);
-
-// Web routes
-router.get('/vehicles/all', vehicleController.vehicle_view_all_Page);
-router.get('/vehicles/create', vehicleController.vehicle_create_Page);
-router.get('/vehicles/detail', vehicleController.vehicle_view_one_Page);
-router.get('/vehicles/delete', vehicleController.vehicle_delete_Page);
-router.get('/vehicles/update', vehicleController.vehicle_update_Page);
+// View Routes
+router.get('/create/page', vehiclesController.vehicle_create_Page); // Render Create Page
+router.get('/update/page', vehiclesController.vehicle_update_Page); // Render Update Page
+router.get('/delete/page', vehiclesController.vehicle_delete_Page); // Render Delete Page
+router.get('/view/page', vehiclesController.vehicle_view_one_Page); // Render Single Vehicle Detail Page
 
 module.exports = router;

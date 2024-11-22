@@ -22,7 +22,7 @@ var gridRouter = require('./routes/grid');
 var pickRouter = require('./routes/pick');
 const Vehicles = require('./models/vehicles');
 const resourceRouter  = require('./routes/resource');
-const vehicleRouter = require('./routes/vehicles');
+const vehiclesRouter = require('./routes/vehicles');
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -48,7 +48,10 @@ app.use((req, res, next) => {
   res.status(404);
   res.render('error', { message: 'Page Not Found', error: {} });
 });
-
+// Error handling
+app.use((req, res) => {
+  res.status(404).send({ error: 'Route not found' });
+});
 
 // Error handler
 app.use((err, req, res, next) => {
