@@ -1,16 +1,22 @@
 extends layout
 
-head
-  link(rel="stylesheet", href="/styles.css")
-
 block content
-  h1 Vehicle Results
-  ul
-    each vehicle in results
-      li
-        div.vehicleAttr
-          | Vehicle Name: #{vehicle.vehicle_name}
-        div.vehicleAttr
-          | Price: #{vehicle.price}
-        div.vehicleAttr
-          | Functionality: #{vehicle.functionality}
+  h1= title
+  each vehicle in results
+    div(class="card my-3 p-3 border")
+      h2 Name: #{vehicle.vehicle_name}
+      ul
+        li
+          div.vehicleAttr
+            | Vehicle Name: #{vehicle.vehicle_name}
+          div.vehicleAttr
+            | Price: #{vehicle.price}
+          div.vehicleAttr
+            | Functionality: #{vehicle.functionality}
+      // Define the button with an onclick event to navigate to the update page
+      button.btn.btn-primary.mt-2(onclick=`navigateToUpdate('${vehicle._id}')`) Update
+  // Add a script to handle the navigation
+  script.
+    function navigateToUpdate(vehicleId) {
+      window.location.href = `/vehicles/update/page?id=${vehicleId}`;
+    }
