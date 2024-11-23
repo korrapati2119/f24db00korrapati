@@ -113,7 +113,6 @@ exports.vehicle_create = async function (req, res) {
 
 // Web page for updating a vehicle
 const mongoose = require('mongoose');
-const Vehicle = require('../models/vehicle'); // Update the path to your model if necessary
 
 exports.vehicle_update_Page = async function (req, res) {
   try {
