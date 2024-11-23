@@ -107,7 +107,7 @@ exports.vehicle_update_Page = async (req, res) => {
     if (!vehicle) {
       res.status(404).send({ "error": "Vehicle not found" });
     } else {
-      res.render('vehicleupdate', { title: 'Update Vehicle', toShow: vehicle });
+      res.render('vehiclesupdate', { title: 'Update Vehicle', toShow: vehicle });
     }
   } catch (err) {
     res.status(500).send({ "error": err.message });
