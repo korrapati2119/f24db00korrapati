@@ -84,6 +84,21 @@ exports.vehicle_create_Page = function (req, res) {
   }
 };
 
+//for submitted data
+exports.vehicle_create = async function (req, res) {
+  try {
+      const newVehicle = new Vehicle({
+          vehicle_name: req.body.vehicle_name,
+          functionality: req.body.functionality,
+          price: req.body.price,
+      });
+      const result = await newVehicle.save();
+      res.status(201).json({ message: 'Vehicle created successfully', vehicle: result });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: error.message });
+  }
+};
 
 // Web page for updating a vehicle
 exports.vehicle_update_Page = async (req, res) => {
