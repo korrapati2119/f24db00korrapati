@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const mongoose = require('mongoose');
-const Vehicle = require('../models/vehicle');
+const Vehicle = require('../models/vehicles');
 
 const api_controller = require('../controllers/api');
 const vehiclesController = require('../controllers/vehicles');
