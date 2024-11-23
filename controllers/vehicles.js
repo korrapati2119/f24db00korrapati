@@ -1,12 +1,13 @@
 const Vehicle = require('../models/vehicles');
 
 // List all vehicles
-exports.vehicle_list = async (req, res) => {
+exports.vehicle_list = async function(req, res) {
   try {
     const vehicles = await Vehicle.find();
     res.send(vehicles);
   } catch (err) {
-    res.status(500).send({ "error": err.message });
+    res.status(500);
+    res.send({ "error": err.message });
   }
 };
 
@@ -74,9 +75,15 @@ exports.vehicle_delete = async (req, res) => {
 };
 
 // Web page for creating a vehicle
-exports.vehicle_create_Page = (req, res) => {
-  res.render('vehiclecreate', { title: 'Create Vehicle' });
+exports.vehicle_create_Page = function (req, res) {
+  console.log("Rendering vehicle creation page");
+  try {
+      res.render('vehiclescreate', { title: 'Create a Vehicle' });
+  } catch (err) {
+      res.status(500).send(`{'error': '${err}'}`);
+  }
 };
+
 
 // Web page for updating a vehicle
 exports.vehicle_update_Page = async (req, res) => {
