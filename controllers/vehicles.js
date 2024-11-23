@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Vehicle = require('../models/vehicles');
 
 // List all vehicles
@@ -112,7 +113,6 @@ exports.vehicle_create = async function (req, res) {
 };
 
 // Web page for updating a vehicle
-const mongoose = require('mongoose');
 
 exports.vehicle_update_Page = async function (req, res) {
   try {
