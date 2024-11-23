@@ -13,7 +13,8 @@ block content
       label.vehicleAttr(for='price') Price
       input#price(type='number', name='price', class='form-control', required=true, min=0)
     input(type="submit" class="btn btn-primary" value="Submit")
-script.
+
+  script.
     document.getElementById('VehicleForm').addEventListener('submit', function(event) {
       event.preventDefault();
       const form = event.target;
