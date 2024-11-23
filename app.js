@@ -22,7 +22,7 @@ var gridRouter = require('./routes/grid');
 var pickRouter = require('./routes/pick');
 const Vehicles = require('./models/vehicles');
 const resourceRouter  = require('./routes/resource');
-const vehiclesRouter = require('./routes/vehicles');
+var vehiclesRouter = require('./routes/vehicles');
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
