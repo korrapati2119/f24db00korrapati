@@ -48,14 +48,25 @@ exports.vehicle_detail = async (req, res) => {
   }
 };
 
-// PUT: Update a vehicle by ID
-exports.vehicle_update_put = async (req, res) => {
+exports.vehicle_update_put = async function (req, res) {
   try {
-    const vehicle = await Vehicle.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!vehicle) {
-      return res.status(404).send({ error: `Vehicle with ID ${req.params.id} not found` });
+    const id = req.params.id;
+    const updateData = {
+      vehicle_name: req.body.vehicle_name,
+      functionality: req.body.functionality,
+      price: req.body.price,
+    };
+
+    const updatedVehicle = await Vehicle.findByIdAndUpdate(id, updateData, {
+      new: true, // Return the updated document
+      runValidators: true, // Ensure validations are run
+    });
+
+    if (!updatedVehicle) {
+      return res.status(404).send({ error: `Vehicle with ID ${id} not found` });
     }
-    res.send(vehicle);
+
+    res.send({ message: 'Update successful', data: updatedVehicle });
   } catch (err) {
     res.status(500).send({ error: err.message });
   }
