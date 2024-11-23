@@ -24,31 +24,4 @@ router.get('/vehicles/:id', vehiclesController.vehicle_detail);
 router.put('/vehicles/:id', vehiclesController.vehicle_update_put);
 router.delete('/vehicles/:id', vehiclesController.vehicle_delete);
 
-router.post('/update', async (req, res) => {
-    try {
-      const { id, vehicle_name, functionality, price } = req.body;
-  
-      // Validate ID
-      if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).send({ error: `Invalid ID format: ${id}` });
-      }
-  
-      // Find and update the vehicle
-      const updatedVehicle = await Vehicle.findByIdAndUpdate(
-        id,
-        { vehicle_name, functionality, price },
-        { new: true, runValidators: true } // Returns the updated document
-      );
-  
-      if (!updatedVehicle) {
-        return res.status(404).send({ error: `Vehicle with ID ${id} not found` });
-      }
-  
-      res.send({ message: 'Vehicle updated successfully', vehicle: updatedVehicle });
-    } catch (err) {
-      res.status(500).send({ error: err.message });
-    }
-  });
-  
-
 module.exports = router;
