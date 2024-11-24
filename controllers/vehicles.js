@@ -113,7 +113,6 @@ exports.vehicle_create = async function (req, res) {
 };
 
 // Web page for updating a vehicle
-
 exports.vehicle_update_Page = async function (req, res) {
   try {
       const result = await Vehicle.findById(req.query.id);
