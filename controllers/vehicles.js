@@ -174,7 +174,7 @@ exports.vehicle_delete_Page = async (req, res) => {
       console.log("Vehicle found:", vehicle);
 
       // Render the deletion page with the vehicle details
-      res.render('vehicledelete', { title: 'Delete Vehicle', toShow: vehicle });
+      res.render('vehiclesdelete', { title: 'Delete Vehicle', toShow: vehicle });
   } catch (err) {
       console.error("Error in vehicle_delete_Page:", err.message);
       res.status(500).send({ error: err.message });
