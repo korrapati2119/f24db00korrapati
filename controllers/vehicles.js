@@ -204,13 +204,17 @@ exports.vehicle_view_all_Page = async (req, res) => {
 // Web page for a single vehicle
 exports.vehicle_view_one_Page = async (req, res) => {
   try {
-    const vehicle = await Vehicle.findById(req.query.id);
-    if (!vehicle) {
-      res.status(404).send({ "error": "Vehicle not found" });
-    } else {
-      res.render('vehicledetail', { title: 'Vehicle Detail', toShow: vehicle });
-    }
+      const vehicle = await Vehicle.findById(req.query.id);
+      if (!vehicle) {
+          res.status(404).send({ "error": "Vehicle not found" });
+      } else {
+          // Render a view file and pass the vehicle data
+          res.render('vehicledetail', { 
+              title: 'Vehicle Details Page',
+              vehicle: vehicle 
+          });
+      }
   } catch (err) {
-    res.status(500).send({ "error": err.message });
+      res.status(500).send({ "error": err.message });
   }
 };
