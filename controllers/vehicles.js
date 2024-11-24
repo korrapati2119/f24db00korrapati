@@ -36,19 +36,36 @@ exports.vehicle_create_post = async (req, res) => {
 
 
 // View a single vehicle by ID
-exports.vehicle_detail = async function (req, res) {
-  console.log("Details of vehicle with ID:", req.params.id);
+exports.vehicle_detail = async (req, res) => {
   try {
-      const result = await vehicle.findById(req.params.id);
-      if (!result) {
-          res.status(404).send(`{"error": "vehicle for ID ${req.params.id} not found"}`);
+      const vehicle = await Vehicle.findById(req.query.id);
+      if (!vehicle) {
+          res.status(404).send('Vehicle not found');
       } else {
-          res.send(result);
+        res.send(`
+          <html>
+              <head>
+                  <link rel="stylesheet" href="/stylesheets/styles.css"> 
+                  <title>Vehicle Details</title>
+              </head>
+              <body>
+                  <h1>Vehicle Details</h1>
+                  <h3>Detailed View:</h3>
+                  <div class="vehiclesAttr">
+                      <div><strong>ID :</strong> ${vehicle._id}</div>
+                      <div><strong>Vehicle Name:</strong> ${vehicle.vehicle_name}</div>
+                      <div><strong>Functionality:</strong> ${vehicle.functionality}</div>
+                      <div><strong>Price:</strong> ${vehicle.price}</div>
+                  </div>
+              </body>
+          </html>
+        `);
       }
-  } catch (error) {
-      res.status(500).send(`{"error": "Error retrieving document for ID ${req.params.id}: ${error.message}"}`);
+  } catch (err) {
+      res.status(500).send(`{"error": "${err.message}"}`);
   }
 };
+
 
 
 exports.vehicle_update_put = async function (req, res) {

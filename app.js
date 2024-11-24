@@ -112,7 +112,4 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-const reseed = true;
-if (reseed) { recreateDB(); }
-
 module.exports = app;
