@@ -2,6 +2,9 @@ extends layout
 
 block content
   h1 Update Vehicle
+  if success
+        script.
+            alert('Update succeeded!');
   form(action="/vehicles/update" method="POST")
     input(type="hidden" name="id" value=toShow._id)
     div.form-group
