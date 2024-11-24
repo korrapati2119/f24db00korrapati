@@ -72,7 +72,7 @@ app.use('/users', usersRouter);
 app.use('grid',gridRouter);
 app.use('/randomitem',pickRouter);
 app.use('/resource', resourceRouter); // Resources route
-app.use('/resource/vehicles', vehiclesRouter);
+
 app.use(passport.initialize());
 app.use(passport.session());
 // passport config
