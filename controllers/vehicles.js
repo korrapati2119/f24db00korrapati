@@ -157,7 +157,7 @@ exports.vehicle_delete_Page = async (req, res) => {
       if (!vehicle) {
           res.status(404).send({ "error": "Vehicle not found" });
       } else {
-          res.render('vehicledelete', { title: 'Delete Vehicle', toShow: vehicle });
+          res.render('vehiclesdelete', { title: 'Delete Vehicle', toShow: vehicle });
       }
   } catch (err) {
       res.status(500).send({ "error": err.message });
