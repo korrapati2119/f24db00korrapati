@@ -2,6 +2,10 @@ extends layout
 
 block content
   h1= title
-  p Are you sure you want to delete the vehicle?
-  form(action='/resource/vehicles/#{toShow._id}', method='POST')
-    input(type='submit', value='Delete')
+  if toShow
+    p Are you sure you want to delete #{toShow.vehicle_name}?
+    form(action=`/vehicles/delete/${toShow._id}` method="POST")
+      input(type="hidden" name="_method" value="DELETE")
+      button(type="submit") Yes
+  else
+    p Vehicle not found.

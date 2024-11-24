@@ -76,11 +76,20 @@ exports.vehicle_update_put = async function (req, res) {
 // DELETE: Delete a vehicle by ID
 exports.vehicle_delete = async (req, res) => {
   try {
-    const vehicle = await Vehicle.findByIdAndDelete(req.params.id);
-    if (!vehicle) {
-      return res.status(404).send({ error: `Vehicle with ID ${req.params.id} not found` });
+    const { id } = req.params;
+
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).send({ error: `Invalid ID format: ${id}` });
     }
-    res.send({ message: `Vehicle with ID ${req.params.id} deleted successfully` });
+
+    // Attempt to delete the vehicle
+    const deletedVehicle = await Vehicle.findByIdAndDelete(id);
+    if (!deletedVehicle) {
+      return res.status(404).send({ error: `Vehicle with ID ${id} not found` });
+    }
+
+    res.send({ message: 'Vehicle deleted successfully', vehicle: deletedVehicle });
   } catch (err) {
     res.status(500).send({ error: err.message });
   }
