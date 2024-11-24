@@ -66,7 +66,7 @@ app.use((req, res, next) => {
 
 app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from "public" directory
 // Use the routes
-app.use('/vehicles',vehiclesRouter);
+app.use('/resource/vehicles',vehiclesRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('grid',gridRouter);

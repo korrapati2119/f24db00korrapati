@@ -1,5 +1,8 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const Vehicle = require('../models/vehicles');
 const router = express.Router();
+
 const vehiclesController = require('../controllers/vehicles');
 
 console.log('Testing route setup...');
@@ -15,9 +18,35 @@ router.delete('/:id', vehiclesController.vehicle_delete); // Delete a vehicle
 
 // View Routes
 router.get('/create/page', vehiclesController.vehicle_create_Page); // Render Create Page
-router.get('/update/page', vehiclesController.vehicle_update_Page); // Render Update Page
+router.get('/update', vehiclesController.vehicle_update_Page); // Render Update Page
 router.get('/delete/page', vehiclesController.vehicle_delete_Page); // Render Delete Page
 router.get('/view/page', vehiclesController.vehicle_view_all_Page); // Render All Vehicles Page
 router.get('/view/:id', vehiclesController.vehicle_view_one_Page); // Render Single Vehicle Page
+
+router.post('/update', async (req, res) => {
+    try {
+      const { id, vehicle_name, functionality, price } = req.body;
+  
+      // Validate ID
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).send({ error: `Invalid ID format: ${id}` });
+      }
+  
+      // Find and update the vehicle
+      const updatedVehicle = await Vehicle.findByIdAndUpdate(
+        id,
+        { vehicle_name, functionality, price },
+        { new: true, runValidators: true } // Returns the updated document
+      );
+  
+      if (!updatedVehicle) {
+        return res.status(404).send({ error: `Vehicle with ID ${id} not found` });
+      }
+  
+      res.send({ message: 'Vehicle updated successfully', vehicle: updatedVehicle });
+    } catch (err) {
+      res.status(500).send({ error: err.message });
+    }
+  });
 
 module.exports = router;
