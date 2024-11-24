@@ -38,16 +38,24 @@ exports.vehicle_create_post = async (req, res) => {
 // View a single vehicle by ID
 exports.vehicle_detail = async (req, res) => {
   try {
-    const vehicle = await Vehicle.findById(req.params.id);
-    if (!vehicle) {
-      return res.status(404).send({ "error": `Vehicle with ID ${req.params.id} not found` });
-    } else {
-      res.send(vehicle);
+    const id = req.query.id;
+
+    // Validate the ID format
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).send({ error: `Invalid ID format: ${id}` });
     }
+
+    const vehicle = await Vehicle.findById(id);
+    if (!vehicle) {
+      return res.status(404).send({ error: `Vehicle with ID ${id} not found` });
+    }
+
+    res.send(vehicle);
   } catch (err) {
-    res.status(500).send({ "error": err.message });
+    res.status(500).send({ error: err.message });
   }
 };
+
 
 exports.vehicle_update_put = async function (req, res) {
   try {
@@ -174,7 +182,7 @@ exports.vehicle_delete_Page = async (req, res) => {
       console.log("Vehicle found:", vehicle);
 
       // Render the deletion page with the vehicle details
-      res.render('vehiclesdelete', { title: 'Delete Vehicle', toShow: vehicle });
+      res.render('vehiclesdelete', { title: 'Vehicle Deletion', toShow: vehicle });
   } catch (err) {
       console.error("Error in vehicle_delete_Page:", err.message);
       res.status(500).send({ error: err.message });
