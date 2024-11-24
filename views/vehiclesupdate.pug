@@ -2,7 +2,7 @@ extends layout
 
 block content
     h1 Update Vehicle
-    form(action="/resource/vehicles/update" method="POST")
+    form(action="/vehicles/update" method="POST")
         input(type="hidden" name="id" value=toShow._id)
         div
             label(for="vehicle_name") Vehicle Name:
