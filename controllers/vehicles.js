@@ -113,24 +113,26 @@ exports.vehicle_create = async function (req, res) {
 };
 
 // Web page for updating a vehicle
+
 exports.vehicle_update_Page = async function (req, res) {
   try {
-      const result = await Vehicle.findById(req.query.id);
-      if (!result) {
-          return res.status(404).send(`Vehicle with ID ${req.query.id} not found`);
-      }
-      const success = req.query.success === 'true'; // Check for success parameter
-      res.render('vehiclesupdate', { title: 'Update Vehicle', toShow: result, success });
-  } catch (err) {
-      res.status(500).send({ error: err.message });
-  }
-};
+    const id = req.query.id;
 
+    // Validate the ID format
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).send({ error: `Invalid ID format: ${id}` });
+    }
+
+    // Find the vehicle by ID
+    const vehicle = await Vehicle.findById(id);
+    if (!vehicle) {
+      return res.status(404).send({ error: `Vehicle with ID ${id} not found` });
+    }
 
     // Render the update page with the vehicle details
     res.render('vehiclesupdate', {
       title: 'Update Vehicle',
-      toShow: vehicle
+      toShow: vehicle,s
     });
   } catch (err) {
     res.status(500).send({ error: err.message });
