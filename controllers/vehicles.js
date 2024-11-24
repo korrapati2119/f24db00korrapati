@@ -36,23 +36,17 @@ exports.vehicle_create_post = async (req, res) => {
 
 
 // View a single vehicle by ID
-exports.vehicle_detail = async (req, res) => {
+exports.vehicle_detail = async function (req, res) {
+  console.log("Details of vehicle with ID:", req.params.id);
   try {
-    const id = req.query.id;
-
-    // Validate the ID format
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).send({ error: `Invalid ID format: ${id}` });
-    }
-
-    const vehicle = await Vehicle.findById(id);
-    if (!vehicle) {
-      return res.status(404).send({ error: `Vehicle with ID ${id} not found` });
-    }
-
-    res.send(vehicle);
-  } catch (err) {
-    res.status(500).send({ error: err.message });
+      const result = await vehicle.findById(req.params.id);
+      if (!result) {
+          res.status(404).send(`{"error": "vehicle for ID ${req.params.id} not found"}`);
+      } else {
+          res.send(result);
+      }
+  } catch (error) {
+      res.status(500).send(`{"error": "Error retrieving document for ID ${req.params.id}: ${error.message}"}`);
   }
 };
 
