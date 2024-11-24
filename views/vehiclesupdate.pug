@@ -1,16 +1,16 @@
 extends layout
 
 block content
-  h1 Update Vehicle
-  form(action="/resource/vehicles/update/" method="POST")
-    input(type="hidden" name="id" value=toShow._id)
-    div.form-group
-      label(for="vehicle_name") Vehicle Name:
-      input#vehicle_name(type="text" name="vehicle_name" value=toShow.vehicle_name)
-    div.form-group
-      label(for="functionality") Functionality:
-      input#functionality(type="text" name="functionality" value=toShow.functionality)
-    div.form-group
-      label(for="price") Price:
-      input#price(type="number" name="price" value=toShow.price)
-    button(type="submit") Update
+    h1 Update Vehicle
+    form(action="/resource/vehicles/update" method="POST")
+        input(type="hidden" name="id" value=toShow._id)
+        div
+            label(for="vehicle_name") Vehicle Name:
+            input(type="text" name="vehicle_name" value=toShow.vehicle_name)
+        div
+            label(for="functionality") Functionality:
+            input(type="text" name="functionality" value=toShow.functionality)
+        div
+            label(for="price") Price:
+            input(type="number" name="price" value=toShow.price)
+        button(type="submit") Update
