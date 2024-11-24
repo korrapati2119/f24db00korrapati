@@ -2,10 +2,14 @@ extends layout
 
 block content
   h1= title
-  - let vehicleId = toShow._id
-  - let vehicleName = toShow.vehicle_name
-  - let price = toShow.price
-  - let functionality = toShow.functionality
+  - let vehicleId = 
+    toShow._id
+  - let vehicleName = 
+    toShow.vehicle_name
+  - let price = 
+    toShow.price
+  - let functionality = 
+    toShow.functionality
 
   div.row
     div(class='vehiclesAttr mr-3') Vehicle ID is:
