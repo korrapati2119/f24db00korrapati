@@ -51,23 +51,15 @@ exports.vehicle_detail = async (req, res) => {
               <body>
                   <h1>Vehicle Details</h1>
                   <h3>Detailed View:</h3>
-                  <div class="vehicleDetails">
-                      <div class="row">
-                          <span class="label">ID:</span>
-                          <span class="value">${vehicle._id}</span>
-                      </div>
-                      <div class="row">
-                          <span class="label">Vehicle Name:</span>
-                          <span class="value">${vehicle.vehicle_name}</span>
-                      </div>
-                      <div class="row">
-                          <span class="label">Functionality:</span>
-                          <span class="value">${vehicle.functionality}</span>
-                      </div>
-                      <div class="row">
-                          <span class="label">Price:</span>
-                          <span class="value">${vehicle.price}</span>
-                      </div>
+                  <div class="vehiclesAttr">
+                      <div><strong>ID :</strong> 
+                      ${vehicle._id}</div>
+                      <div><strong>Vehicle Name:</strong> 
+                      ${vehicle.vehicle_name}</div>
+                      <div><strong>Functionality:</strong> 
+                      ${vehicle.functionality}</div>
+                      <div><strong>Price:</strong> 
+                      ${vehicle.price}</div>
                   </div>
               </body>
           </html>

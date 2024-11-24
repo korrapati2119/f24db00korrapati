@@ -1,8 +1,29 @@
 body {
   padding: 50px;
-  font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-.vehiclesAttr {
+a {
+  color: #00B7FF;
+}
+
+.vehicleDetails {
+  width: 100%;
+}
+
+.row {
   background-color: aquamarine;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+.row .label {
+  display: block;  /* Ensures label is on its own line */
+  font-weight: bold;
+}
+
+.row .value {
+  display: block;  /* Ensures value is on the next line */
+  margin-top: 5px;  /* Adds space between label and value */
 }
