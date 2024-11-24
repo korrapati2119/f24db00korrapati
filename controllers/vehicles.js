@@ -132,7 +132,7 @@ exports.vehicle_update_Page = async function (req, res) {
     // Render the update page with the vehicle details
     res.render('vehiclesupdate', {
       title: 'Update Vehicle',
-      toShow: vehicle,s
+      toShow: vehicle
     });
   } catch (err) {
     res.status(500).send({ error: err.message });
