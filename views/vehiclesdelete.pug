@@ -5,7 +5,7 @@ block content
   if toShow
     p Are you sure you want to delete #{toShow.vehicle_name}?
     form(action=`/vehicles/delete/${toShow._id}` method="POST")
-      input(type="hidden" name="_method" value="DELETE")
-      button(type="submit") Yes
+      button(type="submit") Delete Vehicle
+
   else
     p Vehicle not found.
