@@ -39,7 +39,7 @@ router.post('/update', async (req, res) => {
       const updatedVehicle = await Vehicle.findByIdAndUpdate(
         id,
         { vehicle_name, functionality, price },
-        { new: true, runValidators: true } // Returns the updated document
+        { new: true, runValidators: true }
       );
   
       if (!updatedVehicle) {
@@ -51,5 +51,6 @@ router.post('/update', async (req, res) => {
       res.status(500).send({ error: err.message });
     }
   });
+  
 
 module.exports = router;
