@@ -200,11 +200,11 @@ exports.vehicle_delete_Page = async (req, res) => {
             <h1 style="text-align: center; color: #333;">Vehicle Deletion</h1>
             <div class="vehiclesAttr">
                 ID :<br> 
-                ${vehicle._id}
+                ${vehicle._id}<br>
                 Vehicle Name:<br> 
-                ${vehicle.vehicle_name}
+                ${vehicle.vehicle_name}<br>
                 Functionality:<br> 
-                ${vehicle.functionality}
+                ${vehicle.functionality}<br>
                 Price:<br>
                 ${vehicle.price}
             </div>

@@ -18,12 +18,13 @@ h2 {
 .btn-delete {
   background-color: red;
   font-size: 16px;
-  padding: 10px 20px;
+  border-radius: 8px; 
 }
 
 .btn-cancel {
   background-color: gray;
   font-size: 16px;
+  border-radius: 8px; 
 }
 
 
