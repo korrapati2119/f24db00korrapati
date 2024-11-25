@@ -196,7 +196,7 @@ exports.vehicle_delete_Page = async (req, res) => {
             <link rel="stylesheet" href="/stylesheets/styles.css"> 
           </head>
           <body>
-            <h1 style="color: #333;">Vehicle Deletion</h1>
+            <h1 style="color: #333;">Vehicle Deletion:</h1>
             <div class="vehiclesAttr">
                 ID :<br> 
                 ${vehicle._id}<br>
