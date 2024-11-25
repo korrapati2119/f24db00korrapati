@@ -118,12 +118,11 @@ exports.vehicle_delete = async (req, res) => {
   try {
     const result = await Vehicle.findByIdAndDelete(req.params.id);
     if (!result) {
-      res.status(404).send({ message: 'Vehicle not found' });
-    } else {
-      res.send({ message: 'Delete succeeded' });
+      return res.status(404).send({ error: 'Vehicle not found' });
     }
-  } catch (err) {
-    res.status(500).send({ error: err.message });
+    res.send({ message: 'Delete succeeded' });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
   }
 };
 
