@@ -65,6 +65,8 @@ app.use((req, res, next) => {
 });
 
 app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from "public" directory
+app.use('/stylesheets', express.static(path.join(__dirname, 'stylesheets')));
+
 // Use the routes
 app.use('/resource/vehicles',vehiclesRouter);
 app.use('/', indexRouter);

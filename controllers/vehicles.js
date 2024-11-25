@@ -195,29 +195,46 @@ exports.vehicle_update_Page = async function (req, res) {
 // Web page for deleting a vehicle
 exports.vehicle_delete_Page = async (req, res) => {
   try {
-      const id = req.query.id;
-      console.log("Received ID for deletion:", id);
-
-      // Validate the ID format
-      if (!mongoose.Types.ObjectId.isValid(id)) {
-          console.error("Invalid ID format:", id);
-          return res.status(400).send({ error: `Invalid ID format: ${id}` });
-      }
-
-      // Find the vehicle by ID
-      const vehicle = await Vehicle.findById(id);
+      const vehicle = await Vehicle.findById(req.query.id);
       if (!vehicle) {
-          console.error("Vehicle not found for ID:", id);
-          return res.status(404).send({ error: `Vehicle not found for ID: ${id}` });
+          res.status(404).send('Vehicle not found');
+      } else {
+          res.send(`
+              <html>
+                  <head>
+                      <link rel="stylesheet" href="/stylesheets/styles.css">
+                      <title>Vehicle Deletion</title>
+                  </head>
+                  <body>
+                      <h1 style="text-align: center; color: red;">Vehicle Deletion</h1>
+                      <div class="vehiclesAttr">
+                          <div class="detail-row">
+                              <strong>ID :</strong><br>
+                              <span>${vehicle._id}</span>
+                          </div>
+                          <div class="detail-row">
+                              <strong>Vehicle Name:</strong><br>
+                              <span>${vehicle.vehicle_name}</span>
+                          </div>
+                          <div class="detail-row">
+                              <strong>Functionality:</strong><br>
+                              <span>${vehicle.functionality}</span>
+                          </div>
+                          <div class="detail-row">
+                              <strong>Price:</strong><br>
+                              <span>${vehicle.price}</span>
+                          </div>
+                      </div>
+                      <div style="text-align: center; margin-top: 20px;">
+                          <button style="background-color: red; color: white; padding: 10px 20px; border: none; cursor: pointer;" onclick="alert('Delete succeeded')">Delete</button>
+                          <button style="background-color: grey; color: white; padding: 10px 20px; border: none; cursor: pointer;" onclick="window.location.href='/resource/vehicles';">Cancel</button>
+                      </div>
+                  </body>
+              </html>
+          `);
       }
-
-      console.log("Vehicle found:", vehicle);
-
-      // Render the deletion page with the vehicle details
-      res.render('vehiclesdelete', { title: 'Vehicle Deletion', toShow: vehicle });
   } catch (err) {
-      console.error("Error in vehicle_delete_Page:", err.message);
-      res.status(500).send({ error: err.message });
+      res.status(500).send(`{"error": "${err.message}"}`);
   }
 };
 
