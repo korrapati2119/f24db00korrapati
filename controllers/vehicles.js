@@ -130,10 +130,10 @@ exports.vehicle_delete = async (req, res) => {
       }
 
       // Redirect or respond with a success message
-      res.redirect('/vehicles/view/page'); // Redirect after successful deletion
-  } catch (err) {
-      res.status(500).send({ error: err.message });
-  }
+      res.json({ message: 'Delete succeeded' });
+    } catch (err) {
+        res.status(500).send({ error: err.message });
+    }
 };
 
 

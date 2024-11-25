@@ -14,3 +14,31 @@ h1 {
 h2 {
   font-size: 24px;
 }
+/* Style the delete and cancel buttons */
+button {
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button#deleteBtn {
+  background-color: red;
+  color: white;
+}
+
+button#cancelBtn {
+  background-color: gray;
+  color: white;
+}
+
+/* Style for the alert */
+#alert {
+  font-size: 16px;
+  color: green;
+  text-align: center;
+  padding: 10px;
+  background-color: #dff0d8;
+  border: 1px solid #d0e9c6;
+  border-radius: 5px;
+}

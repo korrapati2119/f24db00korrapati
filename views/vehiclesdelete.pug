@@ -1,11 +1,63 @@
-extends layout
+<html>
+    <head>
+        <link rel="stylesheet" href="/stylesheets/styles.css">
+        <title>Vehicle Deletion</title>
+    </head>
+    <body>
+        <h1 style="text-align: center; color: #333;">Vehicle Deletion</h1>
 
-block content
-  h1= title
-  if toShow
-    p Are you sure you want to delete #{toShow.vehicle_name}?
-    form(action=`/vehicles/delete/${toShow._id}` method="POST")
-      button(type="submit") Delete Vehicle
+        <!-- Display vehicle details -->
+        <div class="vehiclesAttr">
+            <div class="detail-row">
+                <strong>ID :</strong><br>
+                <span>${vehicle._id}</span>
+            </div>
+            <div class="detail-row">
+                <strong>Vehicle Name:</strong><br>
+                <span>${vehicle.vehicle_name}</span>
+            </div>
+            <div class="detail-row">
+                <strong>Functionality:</strong><br>
+                <span>${vehicle.functionality}</span>
+            </div>
+            <div class="detail-row">
+                <strong>Price:</strong><br>
+                <span>${vehicle.price}</span>
+            </div>
+        </div>
 
-  else
-    p Vehicle not found.
+        <!-- Buttons -->
+        <div style="text-align: center;">
+            <!-- Delete button -->
+            <button id="deleteBtn" style="background-color: red; color: white; font-size: 16px; padding: 10px 20px; margin-right: 20px;" onclick="deleteVehicle()">Delete</button>
+
+            <!-- Cancel button -->
+            <button id="cancelBtn" style="background-color: gray; color: white; font-size: 16px; padding: 10px 20px;" onclick="window.location.href='/vehicles/view/page'">Cancel</button>
+        </div>
+
+        <!-- Alert for successful deletion -->
+        <div id="alert" style="display: none; margin-top: 20px; color: green; text-align: center;">
+            <strong>Delete succeeded</strong>
+        </div>
+
+        <script>
+            // Function to handle vehicle deletion
+            function deleteVehicle() {
+                var id = "<%= vehicle._id %>"; // Pass the vehicle ID from the backend
+                fetch(`/vehicles/delete/${id}`, {
+                    method: 'DELETE',
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message === 'Delete succeeded') {
+                        document.getElementById('alert').style.display = 'block'; // Show success message
+                        setTimeout(function() {
+                            window.location.href = '/vehicles/view/page'; // Redirect after success
+                        }, 2000); // Redirect after 2 seconds
+                    }
+                })
+                .catch(error => console.error('Error deleting vehicle:', error));
+            }
+        </script>
+    </body>
+</html>
