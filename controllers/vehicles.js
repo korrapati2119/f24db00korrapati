@@ -201,36 +201,41 @@ exports.vehicle_delete_Page = async (req, res) => {
       } else {
           res.send(`
               <html>
-                  <head>
-                      <link rel="stylesheet" href="/stylesheets/styles.css">
-                      <title>Vehicle Deletion</title>
-                  </head>
-                  <body>
-                      <h1 style="text-align: center; color: red;">Vehicle Deletion</h1>
-                      <div class="vehiclesAttr">
-                          <div class="detail-row">
-                              <strong>ID :</strong><br>
-                              <span>${vehicle._id}</span>
-                          </div>
-                          <div class="detail-row">
-                              <strong>Vehicle Name:</strong><br>
-                              <span>${vehicle.vehicle_name}</span>
-                          </div>
-                          <div class="detail-row">
-                              <strong>Functionality:</strong><br>
-                              <span>${vehicle.functionality}</span>
-                          </div>
-                          <div class="detail-row">
-                              <strong>Price:</strong><br>
-                              <span>${vehicle.price}</span>
-                          </div>
+              <head>
+                  <link rel="stylesheet" href="/stylesheets/styles.css"> 
+                  <title>Vehicle Details</title>
+              </head>
+              <body>
+                  <h1>Vehicle Details</h1>
+                  <h2>Detailed View:</h2>
+                  <div class="vehiclesAttr">
+                      <div class="detail-row">
+                          ID :<br> 
                       </div>
-                      <div style="text-align: center; margin-top: 20px;">
-                          <button style="background-color: red; color: white; padding: 10px 20px; border: none; cursor: pointer;" onclick="alert('Delete succeeded')">Delete</button>
-                          <button style="background-color: grey; color: white; padding: 10px 20px; border: none; cursor: pointer;" onclick="window.location.href='/resource/vehicles';">Cancel</button>
+                      <div class="detail-row">
+                          ${vehicle._id}
                       </div>
-                  </body>
-              </html>
+                      <div class="detail-row">
+                          Vehicle Name:<br> 
+                      </div>
+                      <div class="detail-row">
+                          ${vehicle.vehicle_name}
+                      </div>
+                      <div class="detail-row">
+                          Functionality:<br> 
+                      </div>
+                      <div class="detail-row">
+                          ${vehicle.functionality}
+                      </div>
+                      <div class="detail-row">
+                          Price:<br>
+                      </div>
+                      <div class="detail-row">
+                          ${vehicle.price}
+                      </div>
+                  </div>
+              </body>
+          </html>
           `);
       }
   } catch (err) {
