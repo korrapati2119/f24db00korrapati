@@ -50,16 +50,24 @@ exports.vehicle_detail = async (req, res) => {
               </head>
               <body>
                   <h1>Vehicle Details</h1>
-                  <h3>Detailed View:</h3>
+                  <h2>Detailed View:</h2>
                   <div class="vehiclesAttr">
-                      <div><strong>ID :</strong> 
-                      ${vehicle._id}</div>
-                      <div><strong>Vehicle Name:</strong> 
-                      ${vehicle.vehicle_name}</div>
-                      <div><strong>Functionality:</strong> 
-                      ${vehicle.functionality}</div>
-                      <div><strong>Price:</strong> 
-                      ${vehicle.price}</div>
+                      <div class="detail-row">
+                          <strong>ID :</strong><br> 
+                          <span>${vehicle._id}</span>
+                      </div>
+                      <div class="detail-row">
+                          <strong>Vehicle Name:</strong><br> 
+                          <span>${vehicle.vehicle_name}</span>
+                      </div>
+                      <div class="detail-row">
+                          <strong>Functionality:</strong><br> 
+                          <span>${vehicle.functionality}</span>
+                      </div>
+                      <div class="detail-row">
+                          <strong>Price:</strong><br> 
+                          <span>${vehicle.price}</span>
+                      </div>
                   </div>
               </body>
           </html>
@@ -69,6 +77,7 @@ exports.vehicle_detail = async (req, res) => {
       res.status(500).send(`{"error": "${err.message}"}`);
   }
 };
+
 
 
 

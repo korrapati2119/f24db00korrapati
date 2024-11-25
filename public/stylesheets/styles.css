@@ -1,29 +1,16 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
-}
-
-.vehicleDetails {
-  width: 100%;
-}
-
-.row {
+.vehiclesAttr .detail-row:nth-child(odd){
   background-color: aquamarine;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 5px;
+  font-size: 16px;
+}
+h1 {
+  font-size: 32px;
 }
 
-.row .label {
-  display: block;  /* Ensures label is on its own line */
-  font-weight: bold;
-}
-
-.row .value {
-  display: block;  /* Ensures value is on the next line */
-  margin-top: 5px;  /* Adds space between label and value */
+h2 {
+  font-size: 24px;
 }
