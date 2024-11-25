@@ -194,10 +194,9 @@ exports.vehicle_delete_Page = async (req, res) => {
         <html>
           <head>
             <link rel="stylesheet" href="/stylesheets/styles.css"> 
-            <title>Vehicle Deletion</title>
           </head>
           <body>
-            <h1 style="text-align: center; color: #333;">Vehicle Deletion</h1>
+            <h1 style="color: #333;">Vehicle Deletion</h1>
             <div class="vehiclesAttr">
                 ID :<br> 
                 ${vehicle._id}<br>
@@ -206,14 +205,13 @@ exports.vehicle_delete_Page = async (req, res) => {
                 Functionality:<br> 
                 ${vehicle.functionality}<br>
                 Price:<br>
-                ${vehicle.price}
+                ${vehicle.price}<br><br>
             </div>
-            <div style="text-align: center; margin-top: 20px;">
               <!-- Delete button -->
-              <button style="background-color: red; color: white; font-size: 16px; padding: 10px 20px; margin-right: 20px;" 
+              <button style="background-color: red; color: white; font-size: 16px;padding: 8px 16px; border-radius: 8px; " 
                 onclick="deleteVehicle('${vehicle._id}')">Delete</button>
               <!-- Cancel button -->
-              <button style="background-color: gray; color: white; font-size: 16px; padding: 10px 20px;" 
+              <button style="background-color: gray; color: white; font-size: 16px;padding: 8px 16px; border-radius: 8px;" 
                 onclick="window.location.href='/vehicles/view/page'">Cancel</button>
             </div>
             <script>
