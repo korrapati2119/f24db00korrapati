@@ -1,63 +1,38 @@
-<html>
-    <head>
-        <link rel="stylesheet" href="/stylesheets/styles.css">
-        <title>Vehicle Deletion</title>
-    </head>
-    <body>
-        <h1 style="text-align: center; color: #333;">Vehicle Deletion</h1>
+extends layout
 
-        <!-- Display vehicle details -->
-        <div class="vehiclesAttr">
-            <div class="detail-row">
-                <strong>ID :</strong><br>
-                <span>${vehicle._id}</span>
-            </div>
-            <div class="detail-row">
-                <strong>Vehicle Name:</strong><br>
-                <span>${vehicle.vehicle_name}</span>
-            </div>
-            <div class="detail-row">
-                <strong>Functionality:</strong><br>
-                <span>${vehicle.functionality}</span>
-            </div>
-            <div class="detail-row">
-                <strong>Price:</strong><br>
-                <span>${vehicle.price}</span>
-            </div>
-        </div>
+block content
+  h1(style="text-align: center; color: #333;") Vehicle Deletion
 
-        <!-- Buttons -->
-        <div style="text-align: center;">
-            <!-- Delete button -->
-            <button id="deleteBtn" style="background-color: red; color: white; font-size: 16px; padding: 10px 20px; margin-right: 20px;" onclick="deleteVehicle()">Delete</button>
+  div.row
+    div(class='vehiclesAttr mr-3') Vehicle ID is:
+    div #{toShow._id}
+  div.row
+    div(class='vehiclesAttr mr-3') Vehicle Name is:
+    div #{toShow.vehicle_name}
+  div.row
+    div(class='vehiclesAttr mr-3') Price is:
+    div #{toShow.price}
+  div.row
+    div(class='vehiclesAttr mr-3') Functionality is:
+    div #{toShow.functionality}
 
-            <!-- Cancel button -->
-            <button id="cancelBtn" style="background-color: gray; color: white; font-size: 16px; padding: 10px 20px;" onclick="window.location.href='/vehicles/view/page'">Cancel</button>
-        </div>
+  div(style="text-align: center; margin-top: 20px;")
+    button#deleteBtn.btn-delete(onclick="deleteVehicle()") Delete
+    button#cancelBtn.btn-cancel(onclick="window.location.href='/vehicles/view/page'") Cancel
 
-        <!-- Alert for successful deletion -->
-        <div id="alert" style="display: none; margin-top: 20px; color: green; text-align: center;">
-            <strong>Delete succeeded</strong>
-        </div>
+  div#alert(style="display: none; margin-top: 20px; color: green; text-align: center;")
+    strong Delete succeeded
 
-        <script>
-            // Function to handle vehicle deletion
-            function deleteVehicle() {
-                var id = "<%= vehicle._id %>"; // Pass the vehicle ID from the backend
-                fetch(`/vehicles/delete/${id}`, {
-                    method: 'DELETE',
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message === 'Delete succeeded') {
-                        document.getElementById('alert').style.display = 'block'; // Show success message
-                        setTimeout(function() {
-                            window.location.href = '/vehicles/view/page'; // Redirect after success
-                        }, 2000); // Redirect after 2 seconds
-                    }
-                })
-                .catch(error => console.error('Error deleting vehicle:', error));
-            }
-        </script>
-    </body>
-</html>
+  script.
+    function deleteVehicle() {
+      const id = "#{toShow._id}";
+      fetch(`/vehicles/delete/${id}`, { method: 'DELETE' })
+        .then(response => response.json())
+        .then(data => {
+          if (data.message === 'Delete succeeded') {
+            document.getElementById('alert').style.display = 'block';
+            setTimeout(() => window.location.href = '/vehicles/view/page', 2000);
+          }
+        })
+        .catch(error => console.error('Error deleting vehicle:', error));
+    }
