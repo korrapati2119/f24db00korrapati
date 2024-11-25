@@ -19,15 +19,11 @@ h2 {
   background-color: red;
   font-size: 16px;
   padding: 10px 20px;
-  border: none;
-  cursor: pointer;
 }
 
 .btn-cancel {
   background-color: gray;
   font-size: 16px;
-  padding: 10px 20px;
-  border: none;
 }
 
 

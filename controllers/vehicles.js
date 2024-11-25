@@ -198,24 +198,15 @@ exports.vehicle_delete_Page = async (req, res) => {
           </head>
           <body>
             <h1 style="text-align: center; color: #333;">Vehicle Deletion</h1>
-            <h2>Are you sure you want to delete this vehicle?</h2>
             <div class="vehiclesAttr">
-              <div class="detail-row">
-                <strong>ID :</strong><br> 
+                ID :<br> 
                 ${vehicle._id}
-              </div>
-              <div class="detail-row">
-                <strong>Vehicle Name:</strong><br> 
+                Vehicle Name:<br> 
                 ${vehicle.vehicle_name}
-              </div>
-              <div class="detail-row">
-                <strong>Functionality:</strong><br> 
+                Functionality:<br> 
                 ${vehicle.functionality}
-              </div>
-              <div class="detail-row">
-                <strong>Price:</strong><br>
+                Price:<br>
                 ${vehicle.price}
-              </div>
             </div>
             <div style="text-align: center; margin-top: 20px;">
               <!-- Delete button -->
