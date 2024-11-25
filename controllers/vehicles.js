@@ -12,6 +12,22 @@ exports.vehicle_list = async function(req, res) {
   }
 };
 
+exports.vehicle_detail_view = async (req, res) => {
+  try {
+      const vehicle = await Vehicle.findById(req.query.id); // Fetch the vehicle by ID
+      if (!vehicle) {
+          res.status(404).send('Vehicle not found');
+      } else {
+          res.render('vehicleDetail', {
+              title: 'Vehicle Details Page',
+              toShow: vehicle, // Pass the vehicle details to the template
+          });
+      }
+  } catch (err) {
+      res.status(500).send(`{"error": "${err.message}"}`);
+  }
+};
+
 exports.vehicle_create_post = async (req, res) => {
   const { vehicle_name, price, functionality } = req.body;
   try {
