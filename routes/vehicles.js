@@ -1,57 +1,74 @@
-const mongoose = require('mongoose');
 const express = require('express');
-
-const Vehicle = require('../models/vehicles');
 const router = express.Router();
 
 const vehiclesController = require('../controllers/vehicles');
+const Vehicle = require('../models/vehicles'); // Your vehicle model
 
-console.log('Testing route setup...');
-console.log('vehicle_list:', vehiclesController.vehicle_list);
-
-// API Routes
-router.get('/', vehiclesController.vehicle_list); // List all vehicles
-router.post('/create', vehiclesController.vehicle_create_post); // Create a new vehicle
-router.post('/', vehiclesController.vehicle_create);
-router.put('/vehicles/:id', vehiclesController.vehicle_update_put); // Update a vehicle
-router.post('/delete/:id', vehiclesController.vehicle_delete); // Delete a vehicle
-
-
-// View Routes
-router.get('/create/page', vehiclesController.vehicle_create_Page); // Render Create Page
-router.get('/update', vehiclesController.vehicle_update_Page); // Render Update Page
-router.get('/detail', vehiclesController.vehicle_detail_view);// Get vehicle details by ID
-
-router.get('/delete', vehiclesController.vehicle_delete_Page); // Render Delete Page
-router.get('/view/page', vehiclesController.vehicle_view_all_Page); // Render All Vehicles Page
-router.get('/view/:id', vehiclesController.vehicle_view_one_Page); // Render Single Vehicle Page
-
-
-router.post('/update', async (req, res) => {
+// Route to display all vehicles
+router.get('/', async (req, res, next) => {
     try {
-      const { id, vehicle_name, functionality, price } = req.body;
-  
-      // Validate ID
-      if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).send({ error: `Invalid ID format: ${id}` });
-      }
-  
-      // Find and update the vehicle
-      const updatedVehicle = await Vehicle.findByIdAndUpdate(
-        id,
-        { vehicle_name, functionality, price },
-        { new: true, runValidators: true }
-      );
-  
-      if (!updatedVehicle) {
-        return res.status(404).send({ error: `Vehicle with ID ${id} not found` });
-      }
-  
-      res.send({ message: 'Vehicle updated successfully', vehicle: updatedVehicle });
+        const vehicles = await Vehicle.find(); // Fetch all vehicles from the database
+        res.render('vehicles', { title: 'Vehicle List', results: vehicles }); // Render the 'vehicles' view
     } catch (err) {
-      res.status(500).send({ error: err.message });
+        next(err); // If there is an error, pass it to the error handler
     }
-  });
-  
+});
+
+// Route to display the update form for a specific vehicle
+router.get('/update/:id', async (req, res) => {
+  try {
+      const vehicle = await Vehicle.findById(req.params.id);
+      if (!vehicle) {
+          return res.status(404).send('Vehicle not found');
+      }
+      res.render('vehicleUpdate', { vehicle }); // Render the update form with the vehicle data
+  } catch (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
+// Update vehicle route (POST method)
+router.post('/update/:id', async (req, res) => {
+  try {
+      const updatedVehicle = await Vehicle.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      res.redirect(`/vehicles/${updatedVehicle._id}`); // Redirect after successful update
+  } catch (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
+// Route to create a new vehicle
+router.post('/create', async (req, res) => {
+  try {
+      const newVehicle = new Vehicle(req.body);
+      await newVehicle.save();
+      res.redirect('/vehicles');  // Redirect to the vehicles list after successful creation
+  } catch (err) {
+      // Send back a custom error message to the form if validation fails
+      res.render('vehicleCreate', { 
+          error: err.message,  // Error message to be displayed on the form
+          vehicle: req.body    // Preserve the form data
+      });
+  }
+});
+
+// Middleware to check for authorized user
+const secured = (req, res, next) => {
+  if (req.user) {
+    return next();
+  }
+  res.redirect("/login"); // Redirect to login if not authenticated
+}
+
+// Route to view all vehicles in a web page
+router.get('/', vehiclesController.vehicle_view_all_Page);
+router.get('/create', (req, res) => res.render('vehicle_create_form'));
+
+router.get('/vehicles', vehiclesController.vehicle_list);
+
+/* GET delete vehicle page */
+router.get('/vehicles/delete', secured, vehiclesController.vehicle_delete_Page);
 
 module.exports = router;

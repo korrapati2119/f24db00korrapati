@@ -2,21 +2,28 @@ extends layout
 
 block content
   h1= title
-  each vehicle in results
-    div(class="card my-3 p-3 border")
-      h2 Name: #{vehicle.vehicle_name}
-      ul
-        li
-          div.vehicleAttr
-            | Vehicle Name: #{vehicle.vehicle_name}
-          div.vehicleAttr
-            | Price: #{vehicle.price}
-          div.vehicleAttr
-            | Functionality: #{vehicle.functionality}
-      // Define the button with an onclick event to navigate to the update page
-      button.btn.btn-primary.mt-2(onclick=`navigateToUpdate('${vehicle._id}')`) Update
-  // Add a script to handle the navigation
+  a.btn.btn-success.mb-3(href='/resource/vehicles/create') Create New Vehicle
+
+  if results && results.length
+    each vehicle in results
+      div(class="card my-3 p-3 border")
+        h3 Name: #{vehicle.vehicle_name}
+        ul
+          li Price: #{vehicle.price}
+          li Functionality: #{vehicle.functionality}
+        button.btn.btn-primary.mt-2(onclick=`navigateToUpdate('${vehicle._id}')`) Update
+        button.btn.btn-info.mt-2(onclick=`navigateToDetails('${vehicle._id}')`) View Details
+        button.btn.btn-danger.mt-2(onclick=`navigateToDelete('${vehicle._id}')`) Delete
+  else
+    p No vehicles available to display.
+
   script.
     function navigateToUpdate(vehicleId) {
-      window.location.href = `/vehicles/update/page?id=${vehicleId}`;
+      window.location.href = `/resource/update?id=${vehicleId}`;
+    }
+    function navigateToDetails(vehicleId) {
+      window.location.href = `/resource/vehicles/detail?id=${vehicleId}`;
+    }
+    function navigateToDelete(vehicleId) {
+      window.location.href = `/vehicles/delete?id=${vehicleId}`;
     }

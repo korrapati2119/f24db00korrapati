@@ -1,6 +1,12 @@
 extends layout
 
 block content
-  h1 Welcome to the Vehicle Search Application
-  p Click below to view vehicle results:
-  a(href='/vehicles') View Vehicles
+  if (!user)
+    a(href="/login") Login
+    br
+    a(href="/register") Register
+  if (user)
+    p You are currently logged in as #{user.username}
+    a(href="/vehicles") Take me to vehicles
+    br
+    a(href="/logout") Logout

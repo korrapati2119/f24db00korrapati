@@ -1,284 +1,140 @@
-const mongoose = require('mongoose');
-const Vehicle = require('../models/vehicles');
+const Vehicles = require('../models/vehicles');
 
 // List all vehicles
-exports.vehicle_list = async function(req, res) {
-  try {
-    const vehicles = await Vehicle.find();
-    res.send(vehicles);
-  } catch (err) {
-    res.status(500);
-    res.send({ "error": err.message });
-  }
-};
-
-exports.vehicle_detail_view = async (req, res) => {
-  try {
-      const vehicle = await Vehicle.findById(req.query.id); // Fetch the vehicle by ID
-      if (!vehicle) {
-          res.status(404).send('Vehicle not found');
-      } else {
-          res.render('vehicleDetail', {
-              title: 'Vehicle Details Page',
-              toShow: vehicle, // Pass the vehicle details to the template
-          });
-      }
-  } catch (err) {
-      res.status(500).send(`{"error": "${err.message}"}`);
-  }
-};
-
-exports.vehicle_create_post = async (req, res) => {
-  const { vehicle_name, price, functionality } = req.body;
-  try {
-    const newVehicle = new Vehicle({
-      vehicle_name,
-      price,
-      functionality,
-    });
-    const result = await newVehicle.save();
-
-    // If `redirect` is needed, check the condition or remove it.
-    if (req.body.redirect) {
-      res.redirect('/vehicles'); // Redirect after successful creation
-    } else {
-      res.status(201).send(result); // Send JSON response
+exports.vehicle_list = async (req, res) => {
+    try {
+        const vehicles = await Vehicles.find(); // Fetch all vehicles
+        res.render('vehicles', { title: 'Vehicles List', results: vehicles }); // Render vehicles page
+    } catch (err) {
+        res.status(500).send({ error: err.message });
     }
-  } catch (error) {
-    res.status(500).send({ error: error.message });
-  }
 };
 
-
-
-// View a single vehicle by ID
-exports.vehicle_detail = async (req, res) => {
-  try {
-      const vehicle = await Vehicle.findById(req.query.id);
-      if (!vehicle) {
-          res.status(404).send('Vehicle not found');
-      } else {
-        res.send(`
-          <html>
-              <head>
-                  <link rel="stylesheet" href="/stylesheets/styles.css"> 
-                  <title>Vehicle Details</title>
-              </head>
-              <body>
-                  <h1>Vehicle Details</h1>
-                  <h2>Detailed View:</h2>
-                  <div class="vehiclesAttr">
-                      <div class="detail-row">
-                          ID :<br> 
-                      </div>
-                      <div class="detail-row">
-                          ${vehicle._id}
-                      </div>
-                      <div class="detail-row">
-                          Vehicle Name:<br> 
-                      </div>
-                      <div class="detail-row">
-                          ${vehicle.vehicle_name}
-                      </div>
-                      <div class="detail-row">
-                          Functionality:<br> 
-                      </div>
-                      <div class="detail-row">
-                          ${vehicle.functionality}
-                      </div>
-                      <div class="detail-row">
-                          Price:<br>
-                      </div>
-                      <div class="detail-row">
-                          ${vehicle.price}
-                      </div>
-                  </div>
-              </body>
-          </html>
-        `);
-      }
-  } catch (err) {
-      res.status(500).send(`{"error": "${err.message}"}`);
-  }
+// View all vehicles (rendered page)
+exports.vehicle_view_all_Page = async function(req, res) {
+    try {
+        const vehicles = await Vehicles.find();
+        res.render('vehicles', { title: 'Vehicle List', vehicles });
+    } catch (err) {
+        res.status(500).send({ error: err.message });
+    }
 };
 
+// Vehicle details page
+exports.vehicle_view_one_Page = async function(req, res) {
+    try {
+        const vehicle = await Vehicles.findById(req.query.id);
+        if (!vehicle) {
+            return res.status(404).send({ error: "Vehicle not found" });
+        }
+        res.render('vehicleDetail', { title: 'Vehicle Details', vehicle });
+    } catch (err) {
+        res.status(500).send({ error: err.message });
+    }
+};
 
+// Get details of a specific vehicle
+exports.vehicle_detail = async function (req, res) {
+    try {
+        const result = await Vehicles.findById(req.params.id);
+        if (!result) {
+            res.status(404).send(`{"error": "Vehicle with ID ${req.params.id} not found"}`);
+        } else {
+            res.send(result);
+        }
+    } catch (error) {
+        res.status(500).send(`{"error": "Error retrieving vehicle for ID ${req.params.id}: ${error.message}"}`);
+    }
+};
 
-
-exports.vehicle_update_put = async function (req, res) {
-  try {
-    const id = req.params.id;
-    const updateData = {
-      vehicle_name: req.body.vehicle_name,
-      functionality: req.body.functionality,
-      price: req.body.price,
-    };
-
-    const updatedVehicle = await Vehicle.findByIdAndUpdate(id, updateData, {
-      new: true, // Return the updated document
-      runValidators: true, // Ensure validations are run
+// Create a new vehicle
+exports.vehicle_create_post = async function(req, res) {
+    let vehicle = new Vehicles({
+        vehicle_name: req.body.vehicle_name,
+        price: req.body.price,
+        functionality: req.body.functionality
     });
 
-    if (!updatedVehicle) {
-      return res.status(404).send({ error: `Vehicle with ID ${id} not found` });
+    try {
+        const result = await vehicle.save(); // Use 'vehicle' to save
+        res.status(201).send(result);
+    } catch (err) {
+        res.status(500).send({ error: err.message });
     }
-
-    res.send({ message: 'Update successful', data: updatedVehicle });
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-  }
 };
 
-// DELETE: Delete a vehicle by ID
-exports.vehicle_delete = async (req, res) => {
-  try {
-    const result = await Vehicle.findByIdAndDelete(req.params.id);
-    if (!result) {
-      return res.status(404).send({ error: 'Vehicle not found' });
+// Delete vehicle
+exports.vehicle_delete = async function(req, res) {
+    try {
+        const vehicle = await Vehicles.findByIdAndDelete(req.params.id);
+        if (!vehicle) {
+            return res.status(404).send({ error: "Vehicle not found" });
+        }
+        res.status(200).send({ message: "Vehicle deleted successfully" });
+    } catch (err) {
+        res.status(500).send({ error: err.message });
     }
-    res.send({ message: 'Delete succeeded' });
-  } catch (error) {
-    res.status(500).send({ error: error.message });
-  }
 };
 
-
-
-// Web page for creating a vehicle
-exports.vehicle_create_Page = function (req, res) {
-  console.log("Rendering vehicle creation page");
-  try {
-      res.render('vehiclescreate', { title: 'Create a Vehicle' });
-  } catch (err) {
-      res.status(500).send(`{'error': '${err}'}`);
-  }
+// Vehicle delete page (for confirmation)
+exports.vehicle_delete_Page = async function(req, res) {
+    try {
+        const vehicle = await Vehicles.findById(req.query.id);
+        if (!vehicle) {
+            return res.status(404).send({ error: "Vehicle not found" });
+        }
+        res.render('vehicleDelete', { title: 'Delete Vehicle', vehicle });
+    } catch (err) {
+        res.status(500).send({ error: err.message });
+    }
 };
 
-//for submitted data
-exports.vehicle_create = async function (req, res) {
-  try {
-      const newVehicle = new Vehicle({
-          vehicle_name: req.body.vehicle_name,
-          functionality: req.body.functionality,
-          price: req.body.price,
-      });
-      const result = await newVehicle.save();
-      res.status(201).json({ message: 'Vehicle created successfully', vehicle: result });
-  } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: error.message });
-  }
+// Update vehicle
+exports.vehicle_update_put = async function(req, res) {
+    try {
+        let vehicle = await Vehicles.findById(req.params.id);
+        if (req.body.vehicle_name) vehicle.vehicle_name = req.body.vehicle_name;
+        if (req.body.price) vehicle.price = req.body.price;
+        if (req.body.functionality) vehicle.functionality = req.body.functionality;
+
+        const updatedVehicle = await vehicle.save(); // Save the updated vehicle
+        res.status(200).send(updatedVehicle);
+    } catch (err) {
+        res.status(500).send({ error: err.message });
+    }
 };
 
-// Web page for updating a vehicle
+// Vehicle update page (for rendering form)
+exports.vehicle_update_Page = async function(req, res) {
+    try {
+        const vehicle = await Vehicles.findById(req.query.id);
+        if (!vehicle) {
+            return res.status(404).send({ error: "Vehicle not found" });
+        }
+        res.render('vehicleUpdate', { title: 'Update Vehicle', vehicle });
+    } catch (err) {
+        res.status(500).send({ error: err.message });
+    }
+};
 
 exports.vehicle_update_Page = async function (req, res) {
-  try {
-    const id = req.query.id;
-
-    // Validate the ID format
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).send({ error: `Invalid ID format: ${id}` });
+    try {
+        const siteId = req.query.id;
+        const vehicle = await Vehicle.findById(siteId);
+        if (!vehicle) {
+            return res.status(404).send({ error: "Vehicle not found" });
+        }
+        res.render('vehiclesupdate', {
+            title: 'Update Vehicle',
+            toShow: vehicles // Pass the site data to the Pug template
+        });
+    } catch (err) {
+        res.status(500).send({ error: err.message });
     }
+  };
+  
 
-    // Find the vehicle by ID
-    const vehicle = await Vehicle.findById(id);
-    if (!vehicle) {
-      return res.status(404).send({ error: `Vehicle with ID ${id} not found` });
-    }
-
-    // Render the update page with the vehicle details
-    res.render('vehiclesupdate', {
-      title: 'Update Vehicle',
-      toShow: vehicle
-    });
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-  }
-};
-
-
-// Web page for deleting a vehicle
-exports.vehicle_delete_Page = async (req, res) => {
-  try {
-    const vehicle = await Vehicle.findById(req.query.id);
-    if (!vehicle) {
-      res.status(404).send('Vehicle not found');
-    } else {
-      res.send(`
-        <html>
-          <head>
-            <link rel="stylesheet" href="/stylesheets/styles.css"> 
-          </head>
-          <body>
-            <h1 style="color: #333;">Vehicle Deletion:</h1>
-            <div class="vehiclesAttr">
-                ID :<br> 
-                ${vehicle._id}<br>
-                Vehicle Name:<br> 
-                ${vehicle.vehicle_name}<br>
-                Functionality:<br> 
-                ${vehicle.functionality}<br>
-                Price:<br>
-                ${vehicle.price}<br><br>
-            </div>
-              <!-- Delete button -->
-              <button style="background-color: red; color: white; font-size: 16px;padding: 8px 16px; border-radius: 8px; " 
-                onclick="deleteVehicle('${vehicle._id}')">Delete</button>
-              <!-- Cancel button -->
-              <button style="background-color: gray; color: white; font-size: 16px;padding: 8px 16px; border-radius: 8px;" 
-                onclick="window.location.href='/vehicles/view/page'">Cancel</button>
-            </div>
-            <script>
-              function deleteVehicle(id) {
-                fetch('/vehicles/delete/' + id, { method: 'DELETE' })
-                  .then(response => response.json())
-                  .then(data => {
-                    if (data.message === 'Delete succeeded') {
-                      alert('Delete succeeded');
-                      window.location.href = '/vehicles/view/page';
-                    } else {
-                      alert('Delete failed: ' + data.error);
-                    }
-                  })
-                  .catch(err => console.error('Error:', err));
-              }
-            </script>
-          </body>
-        </html>
-      `);
-    }
-  } catch (err) {
-    res.status(500).send(`{"error": "${err.message}"}`);
-  }
-};
-
-
-
-// Web page for all vehicles
-exports.vehicle_view_all_Page = async (req, res) => {
-  try {
-    const vehicles = await Vehicle.find();
-    res.render('vehicles', { title: 'Vehicles', results: vehicles });
-  } catch (err) {
-    res.status(500).send({ "error": err.message });
-  }
-};
-
-// Web page for a single vehicle
-exports.vehicle_view_one_Page = async (req, res) => {
-  try {
-      const vehicle = await Vehicle.findById(req.query.id);
-      if (!vehicle) {
-          res.status(404).send({ "error": "Vehicle not found" });
-      } else {
-          // Render a view file and pass the vehicle data
-          res.render('vehicledetail', { 
-              title: 'Vehicle Details Page',
-              vehicle: vehicle 
-          });
-      }
-  } catch (err) {
-      res.status(500).send({ "error": err.message });
-  }
+// Vehicle create page (for rendering form)
+exports.vehicle_create_Page = function(req, res) {
+    res.render('vehicleCreate', { title: 'Create Vehicle' });
 };

@@ -1,22 +1,33 @@
 extends layout
 
 block content
-  h1(style="text-align: center; color: orange; margin-top: 20px;") Vehicle Details
+  h1.text-center.text-dark.mt-5.font-weight-bold= title
 
-  .container(style="max-width: 800px; margin: 0 auto; background-color: #bde0fe; border-radius: 10px; padding: 20px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);")
-    h2(style="color: white; background-color: limegreen; padding: 10px; border-radius: 5px; text-align: center;") Vehicle Details:
+  if (toShow == null)
+    h2.text-center.text-muted.mt-3 No details available for this vehicle
+  else
+    - let vehicleId = toShow._id
+    - let vehicleName = toShow.vehicle_name
+    - let vehiclePrice = toShow.price
+    - let vehicleFunctionality = toShow.functionality
 
-    .details(style="padding: 20px; background-color: #e5e5e5; border-radius: 10px;")
-      <body>
-  <h1><%= title %></h1>
-  <ul>
-    <li><span class="label">Vehicle Name:</span> <%= vehicle.vehicle_name %></li>
-    <li><span class="label">Price:</span> $<%= vehicle.price %></li>
-    <li><span class="label">Functionality:</span> <%= vehicle.functionality %></li>
-    <li><span class="label">ID:</span> <%= vehicle._id %></li>
-  </ul>
-  <a href="/vehicles/view/page">Back to Vehicles</a>
-</body>
-
-    .actions(style="text-align: center; margin-top: 20px;")
-      a.btn.btn-primary(href="/vehicles/view/page" style="text-decoration: none;") Back to List
+    div.container.mt-5
+      div.card.shadow-lg.border-success
+        div.card-header.bg-success.text-white
+          h3.text-center Vehicle Details
+        div.card-body
+          div.row
+            div.col-md-6.mb-3
+              strong Vehicle ID:
+              p.text-muted #{vehicleId}
+            div.col-md-6.mb-3
+              strong Vehicle Name:
+              p.text-muted #{vehicleName}
+            div.col-md-6.mb-3
+              strong Price:
+              p.text-muted $#{vehiclePrice}
+            div.col-md-6.mb-3
+              strong Functionality:
+              p.text-muted #{vehicleFunctionality}
+        div.card-footer.text-center
+          a.btn.btn-outline-success.btn-lg(href='/resource/vehicles') Back to List

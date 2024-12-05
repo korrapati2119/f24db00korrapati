@@ -1,40 +1,40 @@
 extends layout
 
 block content
-  h1 Create a New Vehicle
-  form(id='VehicleForm', action="/vehicles", method="POST" class="form-container")
-    div.form-group
-      label.vehicleAttr(for='vehicle_name') Vehicle Name
-      input#vehicle_name(type='text', name='vehicle_name', class='form-control', required=true)
-    div.form-group
-      label.vehicleAttr(for='functionality') Functionality
-      input#functionality(type='text', name='functionality', class='form-control', required=true)
-    div.form-group
-      label.vehicleAttr(for='price') Price
-      input#price(type='number', name='price', class='form-control', required=true, min=0)
-    input(type="submit" class="btn btn-primary" value="Submit")
-
+  h1= title
+  form(action="/vehicles/create" method="POST")
+    if error
+        div(style="color: red;")
+            p= error  // Display the error message
+    div
+        label(for="vehicle_name") Vehicle Name:
+        input(type="text" name="vehicle_name" value="#{vehicle.vehicle_name}")
+    div
+        label(for="price") Price:
+        input(type="number" name="price" value="#{vehicle.price}")
+    div
+        label(for="functionality") Functionality:
+        select(name="functionality")
+            option(value="Transportation" selected=vehicle.functionality == 'Transportation') Transportation
+            option(value="Recreational" selected=vehicle.functionality == 'Recreational') Recreational
+            option(value="Commercial" selected=vehicle.functionality == 'Commercial') Commercial
+            option(value="Military" selected=vehicle.functionality == 'Military') Military
+    div
+        button(type="submit") Submit
+  
   script.
-    document.getElementById('VehicleForm').addEventListener('submit', function(event) {
+    document.forms['VehicleForm'].addEventListener('submit', (event) => {
       event.preventDefault();
-      const form = event.target;
-
-      fetch(form.action, {
-        method: form.method,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(new FormData(form))
+      // Show user that form is being submitted
+      fetch(event.target.action, {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
       })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
+      .then((resp) => resp.json())
+      .then((body) => {
+        alert("Save succeeded!");
       })
-      .then(data => {
-        alert(data.message || "Vehicle created successfully!");
-        form.reset(); // Reset the form after success
-      })
-      .catch(error => {
-        alert("Error: " + error.message);
+      .catch((error) => {
+        alert("Save failed: " + error);
       });
     });

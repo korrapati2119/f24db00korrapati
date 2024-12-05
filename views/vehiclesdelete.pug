@@ -1,46 +1,46 @@
 extends layout
 
 block content
-  h1(style="color: #333;") Vehicle Deletion
-
-  div.row
-    div(class='vehiclesAttr mr-3') Vehicle ID is:
-    div #{toShow._id}
-  div.row
-    div(class='vehiclesAttr mr-3') Vehicle Name is:
-    div #{toShow.vehicle_name}
-  div.row
-    div(class='vehiclesAttr mr-3') Price is:
-    div #{toShow.price}
-  div.row
-    div(class='vehiclesAttr mr-3') Functionality is:
-    div #{toShow.functionality}
-
-  div
-    button#deleteBtn.btn-delete(onclick="deleteVehicle()") Delete
-    button#cancelBtn.btn-cancel(onclick="window.location.href='/vehicles/view/page'") Cancel
-
-  div#alert(style="display: none; margin-top: 20px; color: green; text-align: center;")
-    strong Delete succeeded
-script(src="/javascripts/vehicles.js")
+  h1= title
+  if (toShow == null)
+    h2 No instance to delete
+  else
+    - let vehicleid = toShow._id
+    - let vehicle_name = toShow.vehicle_name
+    - let price = toShow.price
+    - let functionality = toShow.functionality
+    - let actionid = "/resource/vehicles/" + vehicleid
+    script let actionid = "#{actionid}"
+    div
+      div.row
+        div(class='vehicleAttr mr-3') Vehicle ID is:
+        div #{vehicleid}
+      div.row
+        div(class='vehicleAttr mr-3') Vehicle Name is:
+        div #{vehicle_name}
+      div.row
+        div(class='vehicleAttr mr-3') Price is:
+        div #{price}
+      div.row
+        div(class='vehicleAttr mr-3') Functionality is:
+        div #{functionality}
+    button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
+    button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
   script.
-  function deleteVehicle(id) {
-    fetch(`/vehicles/delete/${id}`, {
-      method: 'DELETE',
-    })
-      .then(response => {
-        if (response.ok) {
-          document.getElementById('alert').style.display = 'block';
-          setTimeout(() => {
-            window.location.href = '/vehicles/view/page';
-          }, 2000);
-        } else {
-          alert('Error deleting vehicle. Please try again.');
-        }
-      })
-      .catch(err => {
-        console.error('Error:', err);
-        alert('Error deleting vehicle. Please check the console for details.');
+    function cancel() {
+      window.location.href = '/vehicles';
+    }
+  script.
+    function deleteOnid() {
+      console.log("Starting delete");
+      fetch(actionid, {
+        method: 'DELETE'
+      }).then((resp) => {
+        return resp.json();
+      }).then((body) => {
+        alert("Delete succeeded");
+        window.location.href = '/vehicles';
+      }).catch((error) => {
+        alert("Delete failed: " + error);
       });
-  }
-
+    }

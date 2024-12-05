@@ -15,16 +15,15 @@ body {
 }
 
 h1 {
-  text-align: center;
+  text-align: left;
   color: orange;
 }
 
 h2 {
   color: white;
-  background-color: limegreen;
   padding: 10px;
   border-radius: 5px;
-  text-align: center;
+  text-align: left;
 }
 
 .details {

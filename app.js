@@ -5,6 +5,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
+
 const connectionString = process.env.MONGO_CON;
 mongoose.connect(connectionString);
 const db = mongoose.connection;
@@ -13,16 +14,11 @@ db.once('open', () => {
   console.log("Connection to DB succeeded");
 });
 
+const vehicleRoutes = require('./routes/vehicles'); 
+
 var app = express();
 
-// Import other routers
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var gridRouter = require('./routes/grid');
-var pickRouter = require('./routes/pick');
-const Vehicles = require('./models/vehicles');
-const resourceRouter  = require('./routes/resource');
-var vehiclesRouter = require('./routes/vehicles');
+const Vehicle = require('./models/vehicles');
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -44,48 +40,60 @@ passport.use(new LocalStrategy(
       })
   })
 )
+// Import other routers
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+var gridRouter = require('./routes/grid');
+var pickRouter = require('./routes/pick');
+const Vehicles = require('./models/vehicles');
+
+const resourceRouter = require('./routes/resource');
+var vehiclesRouter = require('./routes/vehicles');
+
+// The Account model
+var Account =require('./models/account');
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug'); // Pug templating engine
+app.set('view engine', 'pug'); 
 
 // Middleware setup
 app.use(logger('dev')); // Logger middleware
 app.use(express.json()); // JSON parser middleware
-app.use(express.urlencoded({ extended: true })); // URL-encoded body parser middleware
+app.use(express.urlencoded({ extended: false })); // URL-encoded body parser middleware
 app.use(cookieParser()); // Cookie parser middleware
 app.use(require('express-session')({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: false
 }));
-
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
-  next();
-});
-
-app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from "public" directory
-app.use('/stylesheets', express.static(path.join(__dirname, 'stylesheets')));
-
-// Use the routes
-app.use('/resource/vehicles',vehiclesRouter);
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('grid',gridRouter);
-app.use('/randomitem',pickRouter);
-app.use('/resource', resourceRouter); // Resources route
-app.use('/vehicles', vehiclesRouter);
-
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+
+// Use the routes
+app.use('/vehicles',vehiclesRouter);
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/grid',gridRouter);
+app.use('/randomitem',pickRouter);
+app.use('/resource', resourceRouter); // Resources route
+app.use('/vehicles', vehicleRoutes);
+
 // passport config
 // Use the existing connection
-// The Account model
-var Account =require('./models/account');
+
+
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
-app.use(express.static('public'));
+
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  next(createError(404));
+});
+
 
 // Error handler
 app.use(function (err, req, res, next) {
@@ -97,21 +105,37 @@ app.use(function (err, req, res, next) {
 });
 
 async function recreateDB() {
-  await Vehicle.deleteMany();
+  await Vehicle.deleteMany(); // Delete all existing vehicle records
 
+  // Sample vehicle data
   const vehicle1 = new Vehicle({ vehicle_name: "Sedan", price: 20000, functionality: "Transportation" });
   const vehicle2 = new Vehicle({ vehicle_name: "Sport Bike", price: 15000, functionality: "Recreational" });
   const vehicle3 = new Vehicle({ vehicle_name: "SUV", price: 25000, functionality: "Transportation" });
 
+  // Save sample vehicles to the database
   await vehicle1.save();
   await vehicle2.save();
   await vehicle3.save();
+
+  console.log("Database seeded successfully!");
 }
 
-// Set the port and start the server
-const port = 3001;
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+// MongoDB connection
+mongoose.connect(connectionString)
+    .then(() => {
+        const db = mongoose.connection;
+        
+        // Bind connection to error event
+        db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+        db.once("open", function() {
+            console.log("Connection to DB succeeded");
+        });
+    })
+    .catch(err => {
+        console.error("MongoDB connection error:", err);
+    });
+
+const reseed = true;
+if (reseed) { recreateDB(); }
 
 module.exports = app;
